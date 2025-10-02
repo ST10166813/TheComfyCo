@@ -133,19 +133,36 @@ class AddProductActivity : AppCompatActivity() {
         val nameStr = etName.text.toString()
         val descriptionStr = etDescription.text.toString()
         val priceDbl = etPrice.text.toString().toDoubleOrNull()
-        val stockInt = etStock.text.toString().toIntOrNull()
-        val variantsList = collectVariants() // Now List<Variant>
+        val stockInt = etStock.text.toString().toIntOrNull() // Initial Stock
+        val variantsList = collectVariants()
 
+        // 1. Basic field validation
         if (nameStr.isEmpty() || priceDbl == null || stockInt == null) {
-            Toast.makeText(this, "Fill in all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Fill in all required fields (Name, Price, Stock).", Toast.LENGTH_SHORT).show()
             return
         }
+
+        // 2. STOCK VALIDATION LOGIC
+        // Calculate the total stock from all variants
+        val totalVariantStock = variantsList.sumOf { it.stock ?: 0 }
+
+        // Compare the total variant stock with the initial stock
+        if (totalVariantStock != stockInt) {
+            // If they don't match, show the Toast and stop the upload
+            Toast.makeText(
+                this,
+                "Error: Total variant stock ($totalVariantStock) must equal Initial Stock ($stockInt).",
+                Toast.LENGTH_LONG
+            ).show()
+            return // Exit the function, preventing the API call
+        }
+        // END STOCK VALIDATION LOGIC
 
         // Helper function to create a basic text RequestBody
         fun createTextRequestBody(text: String) =
             RequestBody.create("text/plain".toMediaTypeOrNull(), text)
 
-        // Convert basic fields to RequestBody parts
+        // Convert fields to RequestBody parts
         val namePart = createTextRequestBody(nameStr)
         val descriptionPart = createTextRequestBody(descriptionStr)
         val pricePart = createTextRequestBody(priceDbl.toString())
@@ -165,13 +182,12 @@ class AddProductActivity : AppCompatActivity() {
                     MultipartBody.Part.createFormData("image", file.name, requestFile)
                 }
 
-                // ASSUMING YOUR RETROFIT API IS UPDATED (see Step 3)
                 val product = RetrofitClient.api.createProduct(
                     namePart,
                     descriptionPart,
                     pricePart,
                     stockPart,
-                    variantsPart, // Pass the JSON RequestBody
+                    variantsPart,
                     imagePart
                 )
 
