@@ -58,6 +58,7 @@ dependencies {
     // Retrofit for HTTP requests
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // Coroutine support
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
@@ -75,5 +76,8 @@ dependencies {
     // Views/Fragments integration
     implementation("androidx.navigation:navigation-fragment:2.9.5")
     implementation("androidx.navigation:navigation-ui:2.9.5")
+
+
+    implementation("com.google.code.gson:gson:2.10.1")
 
 }
