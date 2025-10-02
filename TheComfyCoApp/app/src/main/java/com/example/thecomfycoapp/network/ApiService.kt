@@ -7,6 +7,7 @@ import com.example.thecomfycoapp.models.RegisterRequest
 import com.example.thecomfycoapp.models.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -38,15 +39,15 @@ interface ApiService {
     suspend fun getProduct(@Path("id") id: String): Product
 
     @Multipart
-    @POST("/api/products")
+    @POST("api/products")
     suspend fun createProduct(
         @Part("name") name: RequestBody,
         @Part("description") description: RequestBody,
         @Part("price") price: RequestBody,
         @Part("stock") stock: RequestBody,
-        @Part("variants") variants: RequestBody, // <-- The FIX!
-        @Part image: MultipartBody.Part?
-    ): Product
+        @Part("variants") variants: RequestBody,
+        @Part image: MultipartBody.Part? // Nullable image part
+    ): Response<Product>
 
     @PUT("api/products/{id}")
     suspend fun updateProduct(@Path("id") id: String, @Body product: Product): Product
