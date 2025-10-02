@@ -8,6 +8,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.thecomfycoapp.network.RetrofitClient
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)

@@ -9,17 +9,17 @@
     tools:context=".Fragments.HomeFragment">
 
 
-    <!-- Hamburger icon -->
-    <ImageView
-        android:id="@+id/ivMenu"
-        android:layout_width="42dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="24dp"
-        android:contentDescription="@string/navigation_menu"
-        app:srcCompat="@drawable/menu"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="24dp" />
+<!--    &lt;!&ndash; Hamburger icon &ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/ivMenu"-->
+<!--        android:layout_width="42dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:layout_marginStart="24dp"-->
+<!--        android:contentDescription="@string/navigation_menu"-->
+<!--        app:srcCompat="@drawable/menu"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:layout_marginTop="24dp" />-->
 
     <!-- Welcome text -->
     <TextView
@@ -27,12 +27,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="240dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/tenor_sans_reg"
         android:text=" "
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/ivMenu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivMenu" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,22 @@
 package com.example.thecomfycoapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import android.widget.TextView
-import com.google.android.material.button.MaterialButton
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.color.MaterialColors
 
 class HomeActivity : AppCompatActivity() {
 
@@ -21,42 +27,64 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var settingsItem: TextView
     private lateinit var signOutBtn: MaterialButton
 
+    private lateinit var toolbar: MaterialToolbar
+    private lateinit var burger: DrawerArrowDrawable
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply saved theme BEFORE inflating UI
+        val prefs = getSharedPreferences("settings_prefs", Context.MODE_PRIVATE)
+        AppCompatDelegate.setDefaultNightMode(
+            prefs.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_NO)
+        )
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         drawerLayout = findViewById(R.id.drawerLayout)
+        toolbar = findViewById(R.id.topAppBar)
 
-        // Find drawer views
+        // --- Hamburger icon (theme-aware) ---
+        val onSurface = MaterialColors.getColor(toolbar, com.google.android.material.R.attr.colorOnSurface)
+        burger = DrawerArrowDrawable(this).apply {
+            color = onSurface   // auto flips light/dark
+            progress = 0f       // hamburger state
+            // optionally: setBarLength(), setArrowHeadLength(), etc., if you want a bigger icon
+        }
+        toolbar.navigationIcon = burger
+        toolbar.contentInsetStartWithNavigation = 0 // ensure big left hit area
+
+        // Open drawer on FIRST tap, always
+        toolbar.setNavigationOnClickListener {
+            if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
+
+        // Animate hamburger <-> arrow while dragging the drawer
+        drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                burger.progress = slideOffset.coerceIn(0f, 1f)
+            }
+            override fun onDrawerOpened(drawerView: View) { burger.progress = 1f }
+            override fun onDrawerClosed(drawerView: View) { burger.progress = 0f }
+        })
+
+        // --- Drawer items ---
         profileItem = findViewById(R.id.drawerProfile)
         settingsItem = findViewById(R.id.drawerSettings)
-        signOutBtn = findViewById(R.id.drawerSignOut)
+        signOutBtn   = findViewById(R.id.drawerSignOut)
 
-        // NavController
+        profileItem.setOnClickListener { safeNavigate(R.id.id_profile_fragment); closeDrawer() }
+        settingsItem.setOnClickListener { safeNavigate(R.id.id_settings_fragments); closeDrawer() }
+        signOutBtn.setOnClickListener { performSignOut() }
+
+        // --- NavController ---
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-
-        // Clicks: navigate + close drawer
-        profileItem.setOnClickListener {
-            safeNavigate(R.id.id_profile_fragment)
-            closeDrawer()
-        }
-        settingsItem.setOnClickListener {
-            safeNavigate(R.id.id_settings_fragments)
-            closeDrawer()
-        }
-
-        // Sign out
-        signOutBtn.setOnClickListener {
-            performSignOut()
-        }
     }
 
-    /** Called by fragments (e.g., HomeFragment) when hamburger is tapped */
-    fun openDrawer() {
-        drawerLayout.openDrawer(GravityCompat.START)
-    }
+    fun openDrawer() { drawerLayout.openDrawer(GravityCompat.START) }
 
     private fun closeDrawer() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -65,41 +93,26 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun safeNavigate(destId: Int) {
-        // Avoid duplicate navigate calls if already on destination
         if (navController.currentDestination?.id != destId) {
             navController.navigate(destId)
         }
     }
 
     private fun performSignOut() {
-        // 1) Clear your app token
-        getSharedPreferences("auth", MODE_PRIVATE)
-            .edit()
-            .remove("token")
-            .apply()
+        getSharedPreferences("auth", MODE_PRIVATE).edit().remove("token").apply()
 
-        // 2) Google sign-out (if used)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-        val googleClient = GoogleSignIn.getClient(this, gso)
-        googleClient.signOut()
+            .requestEmail().build()
+        GoogleSignIn.getClient(this, gso).signOut()
 
-        // 3) Go back to login screen
-        val intent = Intent(this, AuthenicationActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-
-        // 4) Close drawer + finish
+        startActivity(Intent(this, AuthenicationActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
         closeDrawer()
         finish()
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) closeDrawer() else super.onBackPressed()
     }
 }

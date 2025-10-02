@@ -1,15 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.SettingsFragment">
+    android:padding="20dp"
+    android:background="?attr/colorSurface">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="SETTINGS"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <!-- Toolbar inherits themed surface + text color -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/settingsToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurface"
+            app:title="MY SETTINGS"
+            app:titleCentered="true"
+            app:titleTextColor="?attr/colorOnSurface" />
+
+        <!-- LANGUAGE -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LANGUAGE"
+            android:textStyle="bold"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginTop="18dp" />
+
+        <!-- Exposed dropdown WITHOUT underline -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilLanguage"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:endIconMode="dropdown_menu"
+            app:boxStrokeColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:boxBackgroundColor="?attr/colorSurfaceVariant">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/actLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint=""
+                android:inputType="none"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:paddingVertical="10dp"
+                android:background="@null"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurface"
+                android:backgroundTint="@android:color/transparent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- TEXT SIZE -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TEXT SIZE"
+            android:textStyle="bold"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginTop="18dp" />
+
+        <!-- Exposed dropdown WITHOUT underline -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilTextSize"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:endIconMode="dropdown_menu"
+            app:boxStrokeColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:boxBackgroundColor="?attr/colorSurfaceVariant">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/actTextSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint=""
+                android:inputType="none"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:paddingVertical="10dp"
+                android:background="@null"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurface"
+                android:backgroundTint="@android:color/transparent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- DISPLAY MODE -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DISPLAY MODE"
+            android:textStyle="bold"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginTop="18dp" />
+
+        <RadioGroup
+            android:id="@+id/rgMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/rbLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Light Mode"
+                android:checked="true"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:textColor="?attr/colorOnBackground"
+                android:buttonTint="?attr/colorPrimary"/>
+
+            <RadioButton
+                android:id="@+id/rbDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dark Mode"
+                android:layout_marginStart="24dp"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:textColor="?attr/colorOnBackground"
+                android:buttonTint="?attr/colorPrimary"/>
+        </RadioGroup>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
