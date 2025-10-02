@@ -53,11 +53,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Hamburger
-        view.findViewById<ImageView>(R.id.ivMenu).setOnClickListener {
-            (requireActivity() as? HomeActivity)?.openDrawer()
-        }
+//
+//        // Hamburger
+//        view.findViewById<ImageView>(R.id.ivMenu).setOnClickListener {
+//            (requireActivity() as? HomeActivity)?.openDrawer()
+//        }
 
         // Welcome text (optional)
         val tvWelcome = view.findViewById<TextView>(R.id.tvWelcome)

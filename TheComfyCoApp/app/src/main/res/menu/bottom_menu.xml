@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/menu_home"
+        android:title="HOME"
+        android:icon="@drawable/icon_home"/>
+
+    <item
+        android:title=" "
+        android:enabled="true"
+        />
+<!--    <item-->
+<!--        android:id="@+id/menu_wishlist"-->
+<!--        android:title="WISHLIST"-->
+<!--        android:icon="@drawable/icon_wishlist"/>-->
+    <item
+        android:id="@+id/menu_cart"
+        android:title="ADD TO CART"
+        android:icon="@drawable/icon_add_to_cart"/>
+
+
 </menu>

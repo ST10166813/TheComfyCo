@@ -1,16 +1,24 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.TheComfyCoApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base Day/Night app theme -->
+    <style name="Theme.TheComfyCoApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- You can set brand colors here if you want -->
+        <!-- <item name="colorPrimary">@color/your_primary</item> -->
+        <!-- <item name="colorSecondary">@color/your_secondary</item> -->
+        <!-- Typography/Shapes etc as needed -->
     </style>
 
-    <style name="Theme.TheComfyCoApp" parent="Base.Theme.TheComfyCoApp" />
-
+    <!-- Android 12+ SplashScreen API theme -->
     <style name="Theme.TheComfyCoApp.Splash" parent="Theme.SplashScreen">
+        <!-- Background for splash screen -->
         <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
-        <item name="postSplashScreenTheme">@style/Base.Theme.TheComfyCoApp</item>
+
+        <!-- Your animated or static launcher icon -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+
+        <!-- After splash, use the main app theme -->
+        <item name="postSplashScreenTheme">@style/Theme.TheComfyCoApp</item>
     </style>
 
 </resources>
