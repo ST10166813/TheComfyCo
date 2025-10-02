@@ -1,6 +1,7 @@
 package com.example.thecomfycoapp
 
-import android.app.Activity
+import com.google.gson.Gson // Add this import
+import com.example.thecomfycoapp.models.Variant
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -85,46 +86,93 @@ class AddProductActivity : AppCompatActivity() {
         variantContainer.addView(variantLayout)
     }
 
-    private fun collectVariants(): List<Map<String, Any>> {
-        val variants = mutableListOf<Map<String, Any>>()
+    private fun collectVariants(): List<com.example.thecomfycoapp.models.Variant> {
+        // Note: If you imported com.example.thecomfycoapp.models.Variant,
+        // you don't need the full path.
+        val variants = mutableListOf<com.example.thecomfycoapp.models.Variant>()
 
         for (i in 0 until variantContainer.childCount) {
             val layout = variantContainer.getChildAt(i) as LinearLayout
             val etSize = layout.getChildAt(0) as EditText
             val etStock = layout.getChildAt(1) as EditText
+            // Note: Your layout does not have a color field, so we assume 'color' is null/empty.
 
             val size = etSize.text.toString()
-            val stock = etStock.text.toString().toIntOrNull() ?: 0
+            val stock = etStock.text.toString().toIntOrNull()
 
-            if (size.isNotEmpty()) {
-                variants.add(mapOf("size" to size, "stock" to stock))
+            if (size.isNotEmpty() && stock != null) {
+                // Use your actual Variant data class
+                variants.add(com.example.thecomfycoapp.models.Variant(size = size, color = null, stock = stock))
             }
         }
         return variants
     }
+    fun getFileFromUri(context: Context, uri: Uri): File {
+        val contentResolver = context.contentResolver
+        // Create a temporary file
+        val file = File(context.cacheDir, "temp_upload_file_${System.currentTimeMillis()}")
 
+        try {
+            // Open an InputStream from the URI
+            contentResolver.openInputStream(uri)?.use { inputStream: InputStream ->
+                // Open a FileOutputStream for the temporary file
+                file.outputStream().use { outputStream ->
+                    // Copy the data from the InputStream to the FileOutputStream
+                    inputStream.copyTo(outputStream)
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Handle error appropriately, e.g., throw a custom exception
+            throw RuntimeException("Could not create file from URI", e)
+        }
+
+        return file
+    }
     private fun uploadProduct() {
-        val name = etName.text.toString()
-        val description = etDescription.text.toString()
-        val price = etPrice.text.toString().toDoubleOrNull()
-        val stock = etStock.text.toString().toIntOrNull()
-        val variants = collectVariants()
+        val nameStr = etName.text.toString()
+        val descriptionStr = etDescription.text.toString()
+        val priceDbl = etPrice.text.toString().toDoubleOrNull()
+        val stockInt = etStock.text.toString().toIntOrNull()
+        val variantsList = collectVariants() // Now List<Variant>
 
-        if (name.isEmpty() || price == null || stock == null) {
+        if (nameStr.isEmpty() || priceDbl == null || stockInt == null) {
             Toast.makeText(this, "Fill in all fields", Toast.LENGTH_SHORT).show()
             return
         }
+
+        // Helper function to create a basic text RequestBody
+        fun createTextRequestBody(text: String) =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), text)
+
+        // Convert basic fields to RequestBody parts
+        val namePart = createTextRequestBody(nameStr)
+        val descriptionPart = createTextRequestBody(descriptionStr)
+        val pricePart = createTextRequestBody(priceDbl.toString())
+        val stockPart = createTextRequestBody(stockInt.toString())
+
+        // Convert variants list to JSON string and then to RequestBody part
+        val variantsJson = Gson().toJson(variantsList)
+        val variantsPart = RequestBody.create("application/json".toMediaTypeOrNull(), variantsJson)
+
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val imagePart = imageUri?.let { uri ->
                     val file = getFileFromUri(this@AddProductActivity, uri)
                     val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                    // Field name "image" must match upload.single('image') in Node.js
                     MultipartBody.Part.createFormData("image", file.name, requestFile)
                 }
 
+                // ASSUMING YOUR RETROFIT API IS UPDATED (see Step 3)
                 val product = RetrofitClient.api.createProduct(
-                    name, description, price, stock, variants, imagePart
+                    namePart,
+                    descriptionPart,
+                    pricePart,
+                    stockPart,
+                    variantsPart, // Pass the JSON RequestBody
+                    imagePart
                 )
 
                 runOnUiThread {
@@ -138,4 +186,7 @@ class AddProductActivity : AppCompatActivity() {
             }
         }
     }
-}
+    }
+
+
+

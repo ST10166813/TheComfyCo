@@ -1,39 +1,73 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/black">
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etName"
-            android:hint="Product Name"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Product Name">
 
-        <EditText
-            android:id="@+id/etDescription"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="8dp">
 
-        <EditText
-            android:id="@+id/etPrice"
-            android:hint="Price"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="3"
+                android:gravity="top|start"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/etStock"
-            android:hint="Stock"
-            android:inputType="number"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Price (e.g., 99.99)"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Initial Stock (Non-variant Stock)"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Image"
+            android:layout_marginTop="16dp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"/>
 
         <ImageView
             android:id="@+id/imgPreview"
@@ -41,14 +75,22 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:src="@drawable/logo"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChooseImage"
+            android:text="Choose Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Variants (Size + Stock)"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp"/>
+            android:text="Variants (Size / Stock)"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:layout_marginTop="16dp"/>
 
         <LinearLayout
             android:id="@+id/variantContainer"
@@ -56,25 +98,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddVariant"
             android:text="➕ Add Variant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon" />
 
-
-        <Button
-            android:id="@+id/btnChooseImage"
-            android:text="Choose Image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnUploadProduct"
             android:text="Upload Product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="32dp" />
     </LinearLayout>
 </ScrollView>
