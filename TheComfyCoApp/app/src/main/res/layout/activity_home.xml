@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".HomeActivity">
+
+    <!-- Main content -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- (Optional) Top bar; you can remove if not needed -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:title="@string/app_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- NavHost for fragments -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph"
+            app:layout_constraintTop_toBottomOf="@id/topAppBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- LEFT DRAWER (custom layout to match your screenshot) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/customDrawer"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
+
+        <!-- Menu items column -->
+        <LinearLayout
+            android:id="@+id/menuContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="24dp">
+
+            <TextView
+                android:id="@+id/drawerProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PROFILE"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:textColor="@android:color/black"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp" />
+
+            <TextView
+                android:id="@+id/drawerSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SETTINGS"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp" />
+
+            <!-- Add more items if you want, keep them simple text like the screenshot -->
+
+        </LinearLayout>
+
+        <!-- SIGN OUT pinned to bottom -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/drawerSignOut"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SIGN OUT"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/menuContainer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

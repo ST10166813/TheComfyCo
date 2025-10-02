@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "35777820279",
+    "project_id": "thecomfyco-d3ea4",
+    "storage_bucket": "thecomfyco-d3ea4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35777820279:android:35b2cba289a698b196b872",
+        "android_client_info": {
+          "package_name": "com.example.thecomfycoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35777820279-i379gs92h4bcqtr8prq306t595ik37u1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thecomfycoapp",
+            "certificate_hash": "42118eb710b3dc3d6d766609bd35a19ad75b7a64"
+          }
+        },
+        {
+          "client_id": "35777820279-2b7ss8mqaklk31dm9h6mi8kqsq07qdap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCXgfRJgyK8bhxJTDUE0Mpa_-PrTrZabE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "35777820279-2b7ss8mqaklk31dm9h6mi8kqsq07qdap.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

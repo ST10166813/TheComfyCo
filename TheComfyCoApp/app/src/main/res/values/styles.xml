@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- Style for Navigation Drawer text -->
+    <style name="DrawerItemText" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/tenor_sans_reg</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textColor">@android:color/black</item>
+
+    </style>
+
+</resources>

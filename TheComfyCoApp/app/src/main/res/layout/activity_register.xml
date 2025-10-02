@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity"
+    android:background="@color/white"
+    android:padding="24dp">
+
+    <!-- Back button -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left" />
+
+    <!-- Centered logo below back button -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="214dp"
+        android:layout_height="177dp"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/comfyclub"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:scaleType="fitCenter" />
+
+    <!-- FULL NAME -->
+    <TextView
+        android:id="@+id/fullNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/tenor_sans_reg"
+        android:text="FULL NAME"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/fullNameField"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <EditText
+        android:id="@+id/fullNameField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edittext_bg_blackborder"
+        android:fontFamily="@font/tenor_sans_reg"
+        android:hint="Name and Surname"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fullNameLabel" />
+
+    <!-- EMAIL -->
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="53dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/tenor_sans_reg"
+        android:text="EMAIL"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/emailField"
+        app:layout_constraintTop_toBottomOf="@id/fullNameField" />
+
+    <EditText
+        android:id="@+id/emailField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        android:background="@drawable/edittext_bg_blackborder"
+        android:fontFamily="@font/tenor_sans_reg"
+        app:layout_constraintTop_toBottomOf="@id/emailLabel"
+        app:layout_constraintStart_toStartOf="@+id/fullNameField"
+        app:layout_constraintEnd_toEndOf="@+id/fullNameField"
+        android:layout_marginTop="8dp" />
+
+    <!-- PASSWORD -->
+    <TextView
+        android:id="@+id/passwordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/tenor_sans_reg"
+        android:text="PASSWORD"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/passwordField"
+        app:layout_constraintTop_toBottomOf="@id/emailField" />
+
+    <EditText
+        android:id="@+id/passwordField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:background="@drawable/edittext_bg_blackborder"
+        android:fontFamily="@font/tenor_sans_reg"
+        app:layout_constraintTop_toBottomOf="@id/passwordLabel"
+        app:layout_constraintStart_toStartOf="@+id/emailField"
+        app:layout_constraintEnd_toEndOf="@+id/emailField"
+        android:layout_marginTop="8dp" />
+
+    <!-- CONFIRM PASSWORD -->
+    <TextView
+        android:id="@+id/confirmPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/tenor_sans_reg"
+        android:text="CONFIRM PASSWORD"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/confirmPasswordField"
+        app:layout_constraintTop_toBottomOf="@id/passwordField" />
+
+    <EditText
+        android:id="@+id/confirmPasswordField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:background="@drawable/edittext_bg_blackborder"
+        android:fontFamily="@font/tenor_sans_reg"
+        app:layout_constraintTop_toBottomOf="@id/confirmPasswordLabel"
+        app:layout_constraintStart_toStartOf="@+id/passwordField"
+        app:layout_constraintEnd_toEndOf="@+id/passwordField"
+        android:layout_marginTop="8dp" />
+
+    <!-- CREATE ACCOUNT BUTTON (sticks near bottom when space allows) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCreateAccount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/tenor_sans_reg"
+        android:text="CREATE ACCOUNT"
+        android:textColor="@android:color/white"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confirmPasswordField"
+        app:layout_constraintVertical_bias="0.363" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
