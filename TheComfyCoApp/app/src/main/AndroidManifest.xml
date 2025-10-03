@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheComfyCoApp">
         <activity
+            android:name=".ProductDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductsActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddProductActivity"
             android:exported="false" />
         <activity
@@ -31,11 +37,11 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-
             android:exported="true"
             android:theme="@style/Theme.TheComfyCoApp.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

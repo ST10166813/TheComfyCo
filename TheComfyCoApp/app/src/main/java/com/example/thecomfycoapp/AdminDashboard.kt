@@ -17,6 +17,13 @@ class AdminDashboard : AppCompatActivity() {
        addProductBtn.setOnClickListener {
            startActivity(Intent(this, AddProductActivity::class.java))
        }
+
+        val viewProductBtn = findViewById<Button>(R.id.viewproductbtn)
+        viewProductBtn.setOnClickListener {
+            startActivity(Intent(this, ProductsActivity::class.java))
+        }
+
+
     }
 
     }

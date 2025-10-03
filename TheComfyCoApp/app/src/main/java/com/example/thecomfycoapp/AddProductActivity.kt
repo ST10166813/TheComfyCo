@@ -212,9 +212,6 @@ class AddProductActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {

@@ -7,6 +7,7 @@ import com.example.thecomfycoapp.models.RegisterRequest
 import com.example.thecomfycoapp.models.RegisterResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody // ⬅️ ADDED
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -26,7 +27,7 @@ interface ApiService {
     suspend fun login(@Body request: LoginRequest): LoginResponse
 
     @POST("api/auth/logout")
-    suspend fun logout(): Map<String, String> // { "message": "Logged out" }
+    suspend fun logout(): Map<String, String>
 
     @POST("api/auth/login/google")
     suspend fun loginWithGoogle(@Body request: Map<String, String>): LoginResponse
@@ -50,9 +51,14 @@ interface ApiService {
     ): Response<Product>
 
     @PUT("api/products/{id}")
-    suspend fun updateProduct(@Path("id") id: String, @Body product: Product): Product
+    suspend fun updateProduct(
+        @Path("id") id: String,
+        @Body updates: Map<String, String>
+    ): Response<Product>
 
     @DELETE("api/products/{id}")
-    suspend fun deleteProduct(@Path("id") id: String): Map<String, String>
+    suspend fun deleteProduct(
+        @Path("id") id: String
+    ): Response<ResponseBody>
 
 }
