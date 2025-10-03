@@ -21,6 +21,7 @@ class ProductsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
 
+
         recyclerView = findViewById(R.id.recyclerViewProducts)
         recyclerView.layoutManager = GridLayoutManager(this, 2) // 2 columns like website
 
@@ -43,4 +44,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
     }
+    
 }
+
+

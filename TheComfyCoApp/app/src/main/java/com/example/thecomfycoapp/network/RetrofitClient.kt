@@ -7,11 +7,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    // 1. Change to lateinit var. Initialize it later.
+
     lateinit var api: ApiService
 
-    // Moved BASE_URL here for clarity
-    private const val BASE_URL = "https://thecomfycoapi-1.onrender.com"
+
+    const val BASE_URL = "https://thecomfycoapi-1.onrender.com"
     private var token: String? = null
 
     // 2. setToken is fine, but should likely rebuild API if called later.
