@@ -9,14 +9,13 @@
     android:fitsSystemWindows="true"
     tools:context=".HomeActivity">
 
-    <!-- Main content -->
+    <!-- ===== CONTENT (child 1) ===== -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contentRoot"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/colorSurface">
+        android:layout_height="match_parent">
 
-        <!-- Top bar (no title; hamburger only) -->
+        <!-- Top app bar -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="0dp"
@@ -25,13 +24,12 @@
             app:title=""
             app:titleTextColor="?attr/colorOnSurface"
             app:navigationIconTint="?attr/colorOnSurface"
-            android:contentInsetStartWithNavigation="0dp"
+            app:contentInsetStartWithNavigation="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-
-        <!-- NavHost for fragments -->
+        <!-- Fragment host (locked between toolbar and bottom nav) -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -40,13 +38,43 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph"
             app:layout_constraintTop_toBottomOf="@id/topAppBar"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"/>
 
+        <!-- Bottom nav: pinned to bottom, low elevation so drawer overlays it -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:elevation="4dp"
+            app:menu="@menu/bottom_menu"
+            app:itemIconTint="@color/white"
+            app:itemTextColor="@color/white"
+            app:itemBackground="@android:color/transparent"
+            app:labelVisibilityMode="labeled"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Floating wishlist button lowered to overlap bottom bar slightly -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_wishlist"
+            app:tint="@android:color/holo_red_dark"
+            app:backgroundTint="@android:color/white"
+            android:elevation="18dp"
+            app:pressedTranslationZ="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+            android:layout_marginBottom="-25dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- LEFT DRAWER -->
+    <!-- ===== LEFT DRAWER (child 2) ===== -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/customDrawer"
         android:layout_width="280dp"
@@ -54,7 +82,8 @@
         android:layout_gravity="start"
         android:background="?attr/colorSurface"
         android:paddingStart="24dp"
-        android:paddingEnd="24dp">
+        android:paddingEnd="24dp"
+        android:elevation="16dp"> <!-- Higher than bottom nav so it covers it -->
 
         <LinearLayout
             android:id="@+id/menuContainer"
