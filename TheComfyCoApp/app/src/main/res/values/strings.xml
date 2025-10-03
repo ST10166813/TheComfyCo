@@ -1,14 +1,16 @@
 <resources>
     <string name="app_name">TheComfyCoApp</string>
     <!-- to toggle the open close button of the navigation drawer -->
-    <string name="nav_open">Open</string>
-    <string name="nav_close">Close</string>
+    <!--    <string name="nav_open">Open</string>-->
+    <!--    <string name="nav_close">Close</string>-->
     <string name="default_web_client_id">35777820279-i379gs92h4bcqtr8prq306t595ik37u1.apps.googleusercontent.com</string>
     <string name="navigation_menu">Navigation menu</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dark_mode">Dark mode</string>
     <string name="light_mode">Light mode</string>
+    <string name="nav_open">Open navigation drawer</string>
+    <string name="nav_close">Close navigation drawer</string>
 
 
 </resources>

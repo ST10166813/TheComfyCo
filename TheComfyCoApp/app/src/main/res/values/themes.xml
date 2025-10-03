@@ -15,7 +15,7 @@
         <item name="windowSplashScreenBackground">@color/white</item>
 
         <!-- Your animated or static launcher icon -->
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
 
         <!-- After splash, use the main app theme -->
         <item name="postSplashScreenTheme">@style/Theme.TheComfyCoApp</item>

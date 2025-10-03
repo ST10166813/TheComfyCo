@@ -13,10 +13,10 @@ class AdminDashboard : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_admin_dashboard)
 
-//        val addProductBtn = findViewById<Button>(R.id.addProductBtn)
-//        addProductBtn.setOnClickListener {
-//            startActivity(Intent(this, AddProductActivity::class.java))
-    //}
+        val addProductBtn = findViewById<Button>(R.id.addProductBtn)
+        addProductBtn.setOnClickListener {
+            startActivity(Intent(this, AddProductActivity::class.java))
+    }
 
     }
 }

@@ -19,7 +19,8 @@
             android:background="?attr/colorSurface"
             app:title="MY SETTINGS"
             app:titleCentered="true"
-            app:titleTextColor="?attr/colorOnSurface" />
+            app:titleTextColor="?attr/colorOnSurface"
+            app:titleTextAppearance="@style/TextAppearance.Comfy.ToolbarTitle"/>
 
         <!-- LANGUAGE -->
         <TextView

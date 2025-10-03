@@ -15,9 +15,16 @@
         android:name="com.example.thecomfycoapp.Fragments.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
-    <fragment
-        android:id="@+id/id_settings_fragments"
-        android:name="com.example.thecomfycoapp.Fragments.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
+        <fragment
+            android:id="@+id/id_settings_fragments"
+            android:name="com.example.thecomfycoapp.Fragments.SettingsFragment"
+            android:label="Settings"
+            tools:layout="@layout/fragment_settings" />
+        <fragment
+            android:id="@+id/id_cart_fragment"
+            android:name="com.example.thecomfycoapp.Fragments.CartFragment"
+            android:label="Cart"
+            tools:layout="@layout/fragment_cart" />
+
+
 </navigation>
