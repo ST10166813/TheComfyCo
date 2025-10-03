@@ -1,7 +1,6 @@
 package com.example.thecomfycoapp
 
 import com.google.gson.Gson // Add this import
-import com.example.thecomfycoapp.models.Variant
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -12,11 +11,15 @@ import com.example.thecomfycoapp.network.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.io.InputStream
+import java.io.FileOutputStream
+
 
 
 class AddProductActivity : AppCompatActivity() {
@@ -103,87 +106,87 @@ class AddProductActivity : AppCompatActivity() {
 
             if (size.isNotEmpty() && stock != null) {
                 // Use your actual Variant data class
-                variants.add(com.example.thecomfycoapp.models.Variant(size = size, color = null, stock = stock))
+                variants.add(
+                    com.example.thecomfycoapp.models.Variant(
+                        size = size,
+                        color = null,
+                        stock = stock
+                    )
+                )
             }
         }
         return variants
     }
+
+    // IMPROVED getFileFromUri to use 'use' block for better resource management
     fun getFileFromUri(context: Context, uri: Uri): File {
         val contentResolver = context.contentResolver
-        // Create a temporary file
-        val file = File(context.cacheDir, "temp_upload_file_${System.currentTimeMillis()}")
+        val tempFile = File.createTempFile("upload", ".jpg", context.cacheDir)
 
-        try {
-            // Open an InputStream from the URI
-            contentResolver.openInputStream(uri)?.use { inputStream: InputStream ->
-                // Open a FileOutputStream for the temporary file
-                file.outputStream().use { outputStream ->
-                    // Copy the data from the InputStream to the FileOutputStream
-                    inputStream.copyTo(outputStream)
-                }
+        // Use 'use' blocks to ensure streams are closed even if an exception occurs
+        contentResolver.openInputStream(uri)?.use { inputStream ->
+            FileOutputStream(tempFile).use { outputStream ->
+                inputStream.copyTo(outputStream)
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            // Handle error appropriately, e.g., throw a custom exception
-            throw RuntimeException("Could not create file from URI", e)
-        }
+        } ?: throw RuntimeException("Could not open input stream from URI: $uri")
 
-        return file
+        return tempFile
     }
+
     private fun uploadProduct() {
         val nameStr = etName.text.toString()
         val descriptionStr = etDescription.text.toString()
         val priceDbl = etPrice.text.toString().toDoubleOrNull()
-        val stockInt = etStock.text.toString().toIntOrNull() // Initial Stock
+        val stockInt = etStock.text.toString().toIntOrNull()
         val variantsList = collectVariants()
+        val activityContext = this@AddProductActivity // Save context for use in coroutine
 
-        // 1. Basic field validation
+        // --- VALIDATION (Stays on Main Thread) ---
         if (nameStr.isEmpty() || priceDbl == null || stockInt == null) {
-            Toast.makeText(this, "Fill in all required fields (Name, Price, Stock).", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activityContext, "Fill in all required fields (Name, Price, Stock).", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // 2. STOCK VALIDATION LOGIC
-        // Calculate the total stock from all variants
         val totalVariantStock = variantsList.sumOf { it.stock ?: 0 }
-
-        // Compare the total variant stock with the initial stock
         if (totalVariantStock != stockInt) {
-            // If they don't match, show the Toast and stop the upload
-            Toast.makeText(
-                this,
-                "Error: Total variant stock ($totalVariantStock) must equal Initial Stock ($stockInt).",
-                Toast.LENGTH_LONG
-            ).show()
-            return // Exit the function, preventing the API call
+            Toast.makeText(activityContext, "Error: Total variant stock ($totalVariantStock) must equal Initial Stock ($stockInt).", Toast.LENGTH_LONG).show()
+            return
         }
-        // END STOCK VALIDATION LOGIC
 
-        // Helper function to create a basic text RequestBody
+        // Check image selection immediately on the main thread
+        val currentImageUri = imageUri
+        if (currentImageUri == null) {
+            Toast.makeText(activityContext, "Please select an image.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        // --- END VALIDATION ---
+
+        // Helper function for text parts
         fun createTextRequestBody(text: String) =
             RequestBody.create("text/plain".toMediaTypeOrNull(), text)
 
-        // Convert fields to RequestBody parts
+        // Convert data to RequestBody parts (Fast operations, stay on Main Thread)
         val namePart = createTextRequestBody(nameStr)
         val descriptionPart = createTextRequestBody(descriptionStr)
         val pricePart = createTextRequestBody(priceDbl.toString())
         val stockPart = createTextRequestBody(stockInt.toString())
 
-        // Convert variants list to JSON string and then to RequestBody part
         val variantsJson = Gson().toJson(variantsList)
-        val variantsPart = RequestBody.create("application/json".toMediaTypeOrNull(), variantsJson)
+        val variantsPart = RequestBody.create("text/plain".toMediaTypeOrNull(), variantsJson)
 
 
+        // --- NETWORK AND I/O (Moved to Background Thread) ---
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val imagePart = imageUri?.let { uri ->
-                    val file = getFileFromUri(this@AddProductActivity, uri)
-                    val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-                    // Field name "image" must match upload.single('image') in Node.js
-                    MultipartBody.Part.createFormData("image", file.name, requestFile)
-                }
+                // 1. FILE I/O - Must be in Dispatchers.IO
+                val file = getFileFromUri(activityContext, currentImageUri)
+                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
 
-                val product = RetrofitClient.api.createProduct(
+                // Field name "image" must match backend expectation (e.g., upload.single('image'))
+                val imagePart = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+                // 2. NETWORK CALL - Use corrected variable names
+                val response = RetrofitClient.api.createProduct( // Assuming function is 'createProduct'
                     namePart,
                     descriptionPart,
                     pricePart,
@@ -192,15 +195,34 @@ class AddProductActivity : AppCompatActivity() {
                     imagePart
                 )
 
-                runOnUiThread {
-                    Toast.makeText(this@AddProductActivity, "✅ Product uploaded!", Toast.LENGTH_SHORT).show()
-                    finish()
+                // 3. UI UPDATE - Switch to Main Dispatcher
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(activityContext, "✅ Product uploaded!", Toast.LENGTH_SHORT).show()
+                        activityContext.finish()
+                    } else {
+                        val errorMsg = response.errorBody()?.string()
+                        Toast.makeText(activityContext, "❌ Upload failed: ${response.code()} - $errorMsg", Toast.LENGTH_LONG).show()
+                    }
                 }
             } catch (e: Exception) {
-                runOnUiThread {
-                    Toast.makeText(this@AddProductActivity, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                // 4. ERROR HANDLING - Switch to Main Dispatcher
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(activityContext, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                 }
             }
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            // 1. Set the class-level variable
+            imageUri = data?.data
+
+            // 2. Display the image in the ImageView
+            imgPreview.setImageURI(imageUri)
+
+            Toast.makeText(this, "Image selected!", Toast.LENGTH_SHORT).show()
         }
     }
     }

@@ -16,7 +16,17 @@ class AdminDashboard : AppCompatActivity() {
         val addProductBtn = findViewById<Button>(R.id.addProductBtn)
         addProductBtn.setOnClickListener {
             startActivity(Intent(this, AddProductActivity::class.java))
-    }
+            val addProductBtn = findViewById<Button>(R.id.addProductBtn)
+            addProductBtn.setOnClickListener {
+                startActivity(Intent(this, AddProductActivity::class.java))
+            }
 
-    }
-}
+            val viewProductBtn = findViewById<Button>(R.id.viewproductbtn)
+            viewProductBtn.setOnClickListener {
+                startActivity(Intent(this, ProductsActivity::class.java))
+            }
+
+
+        }
+
+    }}
