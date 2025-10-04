@@ -8,7 +8,6 @@ import retrofit2.http.*
 
 interface ApiService {
 
-
     @POST("api/auth/register")
     suspend fun register(@Body request: RegisterRequest): RegisterResponse
 
@@ -21,7 +20,6 @@ interface ApiService {
     @POST("api/auth/login/google")
     suspend fun loginWithGoogle(@Body request: Map<String, String>): LoginResponse
 
-
     @GET("api/products")
     suspend fun getProducts(): List<Product>
 
@@ -29,7 +27,7 @@ interface ApiService {
     suspend fun getProduct(@Path("id") id: String): Product
 
     @Multipart
-    @POST("api/products")
+    @POST("api/products") // change to "api/admin/products" if that's your protected path
     suspend fun createProduct(
         @Part("name") name: RequestBody,
         @Part("description") description: RequestBody,
@@ -39,14 +37,12 @@ interface ApiService {
         @Part image: MultipartBody.Part?
     ): Response<Product>
 
-
-    @PUT("/api/products/{id}")
+    @PUT("api/products/{id}")
     suspend fun updateProduct(
         @Path("id") id: String,
         @Body product: Product
     ): Response<Product>
+
     @DELETE("api/products/{id}")
-    suspend fun deleteProduct(
-        @Path("id") id: String
-    ): Response<Map<String, String>>
+    suspend fun deleteProduct(@Path("id") id: String): Response<Map<String, String>>
 }

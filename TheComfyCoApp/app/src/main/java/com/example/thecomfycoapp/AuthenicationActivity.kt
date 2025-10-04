@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.thecomfycoapp.viewmodel.AuthViewModel
+import com.example.thecomfycoapp.network.RetrofitClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -35,17 +36,11 @@ class AuthenicationActivity : AppCompatActivity() {
         val loginBtn = findViewById<Button>(R.id.loginBtn)
         val googleSignInBtn = findViewById<SignInButton>(R.id.googleSignInBtn)
         logoutBtn = findViewById<Button>(R.id.logoutBtn)
-//        statusText = findViewById<TextView>(R.id.statusText)
-
-//        // NEW: Open Register screen
-//        val registerBtn = findViewById<Button>(R.id.registerBtn)
-//        registerBtn.setOnClickListener {
-//            startActivity(Intent(this, RegisterActivity::class.java))
-//        }
+        // statusText = findViewById(R.id.statusText) // if you use it, uncomment
 
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
-        // 🔹 Login
+        // 🔹 Email/Password Login
         loginBtn.setOnClickListener {
             val email = emailField.text.toString()
             val password = passwordField.text.toString()
@@ -60,7 +55,10 @@ class AuthenicationActivity : AppCompatActivity() {
                     if (error != null) {
                         Toast.makeText(this, "Login failed: ${error.message}", Toast.LENGTH_SHORT).show()
                     } else {
+                        // save token + role to SharedPreferences
                         saveToken2(response?.token, response?.role)
+                        // >>> IMPORTANT: refresh Retrofit so interceptor starts sending the new token
+                        RetrofitClient.setToken(response?.token)
 
                         val role = response?.userDetails?.role ?: "user"
                         val userName = response?.userDetails?.name
@@ -70,31 +68,30 @@ class AuthenicationActivity : AppCompatActivity() {
                         } else {
                             Intent(this, HomeActivity::class.java)
                         }
-
                         intent.putExtra("name", userName)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
-                    } }
-            } }
+                    }
+                }
+            }
+        }
 
-        // 🔹 Google Sign-In
+        // 🔹 Google Sign-In (optional; currently storing a placeholder token)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        googleSignInBtn.setOnClickListener {
-            signInWithGoogle()
-        }
+        googleSignInBtn.setOnClickListener { signInWithGoogle() }
 
         // 🔹 Logout
         logoutBtn.setOnClickListener {
             viewModel.logout { response, error ->
                 runOnUiThread {
                     if (error != null) {
-                        statusText.text = "Logout failed: ${error.message}"
+                        // statusText?.text = "Logout failed: ${error.message}"
                     } else {
-                        statusText.text = response?.get("message") ?: "Logged out"
+                        // statusText?.text = response?.get("message") ?: "Logged out"
                         clearToken()
                     }
                 }
@@ -112,8 +109,7 @@ class AuthenicationActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
-            val task: Task<GoogleSignInAccount> =
-                GoogleSignIn.getSignedInAccountFromIntent(data)
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
         }
     }
@@ -123,14 +119,17 @@ class AuthenicationActivity : AppCompatActivity() {
             val account: GoogleSignInAccount? = completedTask.getResult(ApiException::class.java)
             if (account != null) {
                 val userName = account.displayName
+                // ⚠️ Placeholder: you likely want to exchange Google token on your backend to get a real JWT
                 saveToken("google_login")
+                RetrofitClient.setToken("google_login") // placeholder; replace with real JWT from backend
                 val intent = Intent(this, HomeActivity::class.java)
                 intent.putExtra("name", userName)
                 startActivity(intent)
                 finish()
             }
         } catch (e: ApiException) {
-            statusText.text = "Google Sign-In failed"
+            // statusText?.text = "Google Sign-In failed"
+            Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -148,8 +147,10 @@ class AuthenicationActivity : AppCompatActivity() {
         role?.let { editor.putString("role", it) }
         editor.apply()
     }
+
     private fun clearToken() {
         val prefs = getSharedPreferences("auth", MODE_PRIVATE)
         prefs.edit().remove("token").apply()
+        RetrofitClient.setToken(null)
     }
 }

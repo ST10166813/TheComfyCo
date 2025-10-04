@@ -20,8 +20,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
-
-
 class AddProductActivity : AppCompatActivity() {
 
     private lateinit var etName: EditText

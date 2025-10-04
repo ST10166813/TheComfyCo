@@ -10,27 +10,23 @@ object RetrofitClient {
 
     lateinit var api: ApiService
 
+    // NOTE the trailing slash (recommended by Retrofit)
+    const val BASE_URL = "https://thecomfycoapi-1.onrender.com/"
 
-    const val BASE_URL = "https://thecomfycoapi-1.onrender.com"
     private var token: String? = null
-
-    // 2. setToken is fine, but should likely rebuild API if called later.
 
     fun init(context: Context) {
         val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
-
-        // Load the token immediately
         token = prefs.getString("token", null)
-
-        // 3. Build/rebuild the client and API only AFTER token is set
         buildApi()
     }
 
     private val authInterceptor = Interceptor { chain ->
         val requestBuilder = chain.request().newBuilder()
-        // The interceptor will now use the most recently set 'token'
         token?.let {
-            requestBuilder.addHeader("Authorization", "Bearer $it")
+            if (it.isNotBlank()) {
+                requestBuilder.addHeader("Authorization", "Bearer $it")
+            }
         }
         chain.proceed(requestBuilder.build())
     }
@@ -48,7 +44,7 @@ object RetrofitClient {
             .create(ApiService::class.java)
     }
 
-    // Optional: If you update the token while the app is running, rebuild the API.
+    /** Call this immediately after a successful login/logout to refresh the header */
     fun setToken(newToken: String?) {
         token = newToken
         buildApi()
