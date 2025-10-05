@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardBackgroundColor="?attr/colorSurface"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -18,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
+            android:background="@android:color/transparent"
             tools:src="@drawable/logo" />
 
         <LinearLayout
@@ -34,6 +38,7 @@
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:textColor="?attr/colorOnSurface"
                 tools:text="Comfy Cotton T-Shirt" />
 
             <TextView
@@ -42,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textSize="14sp"
-                android:textColor="@android:color/holo_green_dark"
+                android:textColor="?attr/colorPrimary"
                 tools:text="R 789.00" />
 
             <TextView
@@ -51,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textSize="12sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 tools:text="Stock: 20 units" />
 
         </LinearLayout>

@@ -21,6 +21,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Bottom Navigation -->
+    <TextView
+        android:id="@+id/tvMessgae"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="312dp"
+        android:fontFamily="@font/tenor_sans_reg"
+        android:gravity="center"
+        android:text="COMING SOON"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

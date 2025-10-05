@@ -288,12 +288,12 @@ class HomeActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.topAppBar)
         bottomNav = findViewById(R.id.bottomNavigationView)
         fabBtn = findViewById(R.id.fab)
-
-        val btnViewProduct: MaterialButton = findViewById(R.id.btnViewProduct)
-        btnViewProduct.setOnClickListener {
-            val intent = Intent(this, UserProductListActivity::class.java) // Replace with your product page activity
-            startActivity(intent)
-        }
+//
+//        val btnViewProduct: MaterialButton = findViewById(R.id.btnViewProduct)
+//        btnViewProduct.setOnClickListener {
+//            val intent = Intent(this, UserProductListActivity::class.java) // Replace with your product page activity
+//            startActivity(intent)
+//        }
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""

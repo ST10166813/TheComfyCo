@@ -1,53 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#FFFFFF">
+    android:background="@color/white">
 
-    <LinearLayout
+    <!-- App Bar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:title="PRODUCT"
+        app:titleCentered="true"
+        app:titleTextColor="@color/black"
+        app:titleTextAppearance="@font/tenor_sans_reg"
+        app:navigationIconTint="@color/black"
+        app:layout_scrollFlags="scroll|enterAlways" />
+
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgUserProduct"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:scaleType="centerCrop"
+                android:background="@color/white"
+                android:contentDescription="@string/app_name"
+                android:layout_marginBottom="14dp" />
+
+            <TextView
+                android:id="@+id/tvUserProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:paddingBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvUserProductPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tvUserProductDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:lineSpacingExtra="2dp"
+                android:paddingBottom="16dp" />
+
+            <!-- Sizes title -->
+            <TextView
+                android:id="@+id/tvSizesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available Sizes"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:paddingBottom="6dp" />
+
+            <!-- Size chips -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupSizes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp"
+                android:paddingBottom="24dp" />
+
+            <!-- Quantity row -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="24dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnQtyMinus"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:text="-"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvQty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:text="1"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/tenor_sans_reg" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnQtyPlus"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:text="+"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom bar with Add to Cart -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="bottom"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="8dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.None">
 
-        <ImageView
-            android:id="@+id/imgUserProduct"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:id="@+id/tvUserProductName"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:paddingBottom="4dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvUserProductPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@android:color/holo_green_dark"
-            android:paddingBottom="8dp" />
+            <TextView
+                android:id="@+id/tvBottomPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="R 0.00"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:fontFamily="@font/tenor_sans_reg" />
 
-        <TextView
-            android:id="@+id/tvUserProductDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:paddingBottom="10dp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddToCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to cart"
+                android:textAllCaps="false"
+                app:cornerRadius="12dp"
+                app:backgroundTint="@color/black"
+                android:textColor="@color/white"
+                app:iconGravity="textStart"
+                style="@style/Widget.Material3.Button"
+                />
 
-        <TextView
-            android:id="@+id/tvUserProductVariants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Available Sizes"
-            android:textStyle="bold"
-            android:paddingBottom="5dp" />
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

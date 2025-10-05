@@ -8,32 +8,117 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
 
-
-<!--    &lt;!&ndash; Hamburger icon &ndash;&gt;-->
-<!--    <ImageView-->
-<!--        android:id="@+id/ivMenu"-->
-<!--        android:layout_width="42dp"-->
-<!--        android:layout_height="45dp"-->
-<!--        android:layout_marginStart="24dp"-->
-<!--        android:contentDescription="@string/navigation_menu"-->
-<!--        app:srcCompat="@drawable/menu"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:layout_marginTop="24dp" />-->
-
-    <!-- Welcome text -->
+    <!-- HI USER! (top-right) -->
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="240dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/tenor_sans_reg"
-        android:text=" "
+        android:text="HI\nUSER!"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="?attr/colorOnBackground"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Pill search bar (no buttons) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSearch"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="12dp"
+        app:boxBackgroundMode="filled"
+        app:boxCornerRadiusTopStart="28dp"
+        app:boxCornerRadiusTopEnd="28dp"
+        app:boxCornerRadiusBottomStart="28dp"
+        app:boxCornerRadiusBottomEnd="28dp"
+        app:boxBackgroundColor="?attr/colorSurface"
+        app:startIconDrawable="@android:drawable/ic_menu_search"
+        app:startIconContentDescription="@string/search"
+        app:endIconMode="clear_text"
+        app:endIconContentDescription="@string/clear"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/search"
+            android:paddingStart="6dp"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:textColor="?attr/colorOnSurface"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnViewProduct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:text="View Products"
+        android:textAllCaps="false"
+        android:fontFamily="@font/tenor_sans_reg"
+        app:iconPadding="8dp"
+        app:iconGravity="textStart"
+
+        app:backgroundTint="@android:color/black"
+        android:textColor="@android:color/white"
+        app:iconTint="@android:color/white"
+
+        app:layout_constraintTop_toBottomOf="@id/tilSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Products grid (2-column) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHomeProducts"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btnViewProduct"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_product" />
+
+    <!-- Loading -->
+    <ProgressBar
+        android:id="@+id/progressHome"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/rvHomeProducts"
+        app:layout_constraintBottom_toBottomOf="@id/rvHomeProducts"
+        app:layout_constraintStart_toStartOf="@id/rvHomeProducts"
+        app:layout_constraintEnd_toEndOf="@id/rvHomeProducts" />
+
+    <!-- Error -->
+    <TextView
+        android:id="@+id/tvHomeError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"
+        android:fontFamily="@font/tenor_sans_reg"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/rvHomeProducts"
+        app:layout_constraintStart_toStartOf="@id/rvHomeProducts"
+        app:layout_constraintEnd_toEndOf="@id/rvHomeProducts" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
