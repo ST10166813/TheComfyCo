@@ -4,19 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="?attr/colorSurface">
 
     <!-- App Bar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="?attr/colorSurface"
         app:title="PRODUCT"
         app:titleCentered="true"
-        app:titleTextColor="@color/black"
+        app:titleTextColor="?attr/colorOnSurface"
         app:titleTextAppearance="@font/tenor_sans_reg"
-        app:navigationIconTint="@color/black"
+        app:navigationIconTint="?attr/colorOnSurface"
         app:layout_scrollFlags="scroll|enterAlways" />
 
     <!-- Scrollable content -->
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:background="@color/white"
+        android:background="?attr/colorSurface"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:padding="16dp">
 
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
                 android:scaleType="centerCrop"
-                android:background="@color/white"
+                android:background="?attr/colorSurface"
                 android:contentDescription="@string/app_name"
                 android:layout_marginBottom="14dp" />
 
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:paddingBottom="6dp" />
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:paddingBottom="10dp" />
 
@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:lineSpacingExtra="2dp"
                 android:paddingBottom="16dp" />
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="Available Sizes"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:paddingBottom="6dp" />
 
@@ -108,8 +108,13 @@
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:text="-"
-                    android:textSize="18sp" />
+                    android:text="−"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface"
+                    app:strokeColor="?attr/colorOutline"
+                    app:strokeWidth="1dp"
+                    app:cornerRadius="12dp" />
 
                 <TextView
                     android:id="@+id/tvQty"
@@ -119,7 +124,7 @@
                     android:paddingEnd="18dp"
                     android:text="1"
                     android:textSize="18sp"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnSurface"
                     android:fontFamily="@font/tenor_sans_reg" />
 
                 <com.google.android.material.button.MaterialButton
@@ -128,7 +133,12 @@
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:text="+"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface"
+                    app:strokeColor="?attr/colorOutline"
+                    app:strokeWidth="1dp"
+                    app:cornerRadius="12dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -143,6 +153,7 @@
         android:foreground="?attr/selectableItemBackground"
         app:cardUseCompatPadding="true"
         app:cardElevation="8dp"
+        app:cardBackgroundColor="?attr/colorSurface"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.None">
 
         <LinearLayout
@@ -159,23 +170,21 @@
                 android:layout_weight="1"
                 android:text="R 0.00"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:fontFamily="@font/tenor_sans_reg" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddToCart"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add to cart"
                 android:textAllCaps="false"
                 app:cornerRadius="12dp"
-                app:backgroundTint="@color/black"
-                android:textColor="@color/white"
-                app:iconGravity="textStart"
-                style="@style/Widget.Material3.Button"
-                />
-
+                app:backgroundTint="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary"
+                app:iconGravity="textStart" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
