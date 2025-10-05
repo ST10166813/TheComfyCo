@@ -113,7 +113,7 @@ class ProductAdapter(
         // Bind Text Data
         holder.tvName.text = product.name
         holder.tvPrice.text = "R ${String.format("%.2f", product.price)}"
-        holder.tvStock.text = "Stock: ${product.stock ?: 0} units"
+
 
         // Load image safely
         if (!product.images.isNullOrEmpty()) {

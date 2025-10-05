@@ -44,7 +44,6 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
     }
-    
 }
 
 

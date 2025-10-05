@@ -58,6 +58,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewProduct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="View Product"
+            android:textAllCaps="false"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@id/fab"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"/>
+
         <!-- Floating wishlist button lowered to overlap bottom bar slightly -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

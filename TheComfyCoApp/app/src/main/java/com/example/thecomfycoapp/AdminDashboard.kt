@@ -41,6 +41,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.thecomfycoapp.network.RetrofitClient
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,6 +91,19 @@ class AdminDashboard : AppCompatActivity() {
 
         // Initial load
         loadDashboard()
+
+        val logoutBtn: MaterialButton = findViewById(R.id.logoutBtn)
+        logoutBtn.setOnClickListener {
+            // Clear user session or Firebase auth, if any
+            // Example: FirebaseAuth.getInstance().signOut()
+
+            // Go back to LoginActivity
+            val intent = Intent(this, AuthenicationActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     private fun loadDashboard(lowStockThreshold: Int = 5) {
