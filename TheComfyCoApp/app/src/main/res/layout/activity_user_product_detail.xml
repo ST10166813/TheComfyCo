@@ -111,10 +111,11 @@
                     android:text="−"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="?attr/colorOnSurface"
-                    app:strokeColor="?attr/colorOutline"
+                    android:textColor="@android:color/black"
+                    app:strokeColor="@android:color/black"
                     app:strokeWidth="1dp"
-                    app:cornerRadius="12dp" />
+                    app:cornerRadius="12dp"
+                    android:backgroundTint="@android:color/transparent" />
 
                 <TextView
                     android:id="@+id/tvQty"
@@ -124,7 +125,7 @@
                     android:paddingEnd="18dp"
                     android:text="1"
                     android:textSize="18sp"
-                    android:textColor="?attr/colorOnSurface"
+                    android:textColor="@android:color/black"
                     android:fontFamily="@font/tenor_sans_reg" />
 
                 <com.google.android.material.button.MaterialButton
@@ -135,10 +136,11 @@
                     android:text="+"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="?attr/colorOnSurface"
-                    app:strokeColor="?attr/colorOutline"
+                    android:textColor="@android:color/black"
+                    app:strokeColor="@android:color/black"
                     app:strokeWidth="1dp"
-                    app:cornerRadius="12dp" />
+                    app:cornerRadius="12dp"
+                    android:backgroundTint="@android:color/transparent" />
             </LinearLayout>
 
         </LinearLayout>
@@ -173,18 +175,18 @@
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:fontFamily="@font/tenor_sans_reg" />
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddToCart"
                 style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add to cart"
+                android:text="Add to art"
                 android:textAllCaps="false"
                 app:cornerRadius="12dp"
-                app:backgroundTint="?attr/colorPrimary"
-                android:textColor="?attr/colorOnPrimary"
+                app:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
                 app:iconGravity="textStart" />
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
