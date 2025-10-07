@@ -34,6 +34,13 @@
             <item name="cornerFamily">rounded</item>
             <item name="cornerSize">24dp</item>
         </style>
+    <!-- res/values/styles.xml -->
+    <style name="ToolbarTitleText" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/tenor_sans_reg</item>
+        <item name="android:fontFamily">@font/tenor_sans_reg</item>
+        <item name="android:textSize">20sp</item>   <!-- tweak if you want -->
+        <item name="android:textStyle">normal</item>
+    </style>
 
 
 

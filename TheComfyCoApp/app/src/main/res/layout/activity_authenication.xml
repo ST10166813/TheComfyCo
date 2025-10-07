@@ -1,151 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:padding="24dp"
+    android:background="@color/white"
+    android:fillViewport="true"
     tools:context=".AuthenicationActivity">
 
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="24dp"
-        android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter"
-        android:src="@drawable/logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <!-- Back button -->
-    <ImageView
-        android:id="@+id/btnBack2"
-        android:layout_width="53dp"
-        android:layout_height="45dp"
-        app:srcCompat="@drawable/left"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:text="EMAIL"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="24dp">
 
-    <EditText
-        android:id="@+id/emailField"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/edittext_bg_blackborder"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:hint="Email"
-        android:imeOptions="actionNext"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailLabel" />
+        <!-- Back button -->
+        <ImageView
+            android:id="@+id/btnBack2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/passwordLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PASSWORD"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/tenor_sans_reg"
-        app:layout_constraintTop_toBottomOf="@id/emailField"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp" />
+        <!-- Very large logo (centered) -->
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/logo"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toBottomOf="@id/btnBack2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.9"
+            android:layout_marginTop="8dp" />
 
-    <EditText
-        android:id="@+id/passwordField"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="12dp"
-        android:background="@drawable/edittext_bg_blackborder"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:imeOptions="actionDone"
-        app:layout_constraintTop_toBottomOf="@id/passwordLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        <!-- EMAIL (outlined like Add Product page) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailTil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="EMAIL"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:boxBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/imageView3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Forgot Password (text button) -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
+                android:padding="12dp"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:textColor="@color/black"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- LOGIN (uses your custom drawable, tint cleared) -->
+        <!-- PASSWORD (outlined, with toggle) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordTil"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="PASSWORD"
+            app:endIconMode="password_toggle"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:boxBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/emailTil"
+            app:layout_constraintStart_toStartOf="@id/emailTil"
+            app:layout_constraintEnd_toEndOf="@id/emailTil">
 
-    <Button
-        android:id="@+id/forgotBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:text="Forgot Password?"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordField" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"
+                android:padding="12dp"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:textColor="@color/black"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Google Sign-In (styled by Google spec; leave default) -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/loginBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/button_bg"
-        android:backgroundTint="@null"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:text="LOGIN"
-        android:textColor="@android:color/white"
-        app:backgroundTint="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forgotBtn" />
+        <!-- Forgot Password -->
+        <Button
+            android:id="@+id/forgotBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password?"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toBottomOf="@id/passwordTil"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"/>
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/googleSignInBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/loginBtn"
-        app:layout_constraintStart_toStartOf="@id/loginBtn"
-        app:layout_constraintEnd_toEndOf="@id/loginBtn"
-        android:layout_marginTop="12dp" />
+        <!-- LOGIN BUTTON -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginBtn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:text="LOGIN"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:background="@drawable/button_bg"
+            app:backgroundTint="@null"
+            app:layout_constraintTop_toBottomOf="@id/forgotBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"/>
 
-    <!-- LOGOUT (same tint-clearing) -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logoutBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="LOGOUT"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:background="@drawable/button_bg"
-        android:textColor="@android:color/white"
-        app:backgroundTint="@null"
-        android:backgroundTint="@null"
-        app:layout_constraintTop_toBottomOf="@id/googleSignInBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp" />
+        <!-- GOOGLE SIGN-IN (Material attrs use app: namespace) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/googleSignInBtn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:text="Sign in with Google"
+            android:textColor="@color/black"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:backgroundTint="@color/white"
+            app:strokeColor="@android:color/darker_gray"
+            app:icon="@drawable/icon_google"
+            app:iconPadding="12dp"
+            app:iconGravity="textStart"
+            app:iconTint="@null"
+            app:cornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@id/loginBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

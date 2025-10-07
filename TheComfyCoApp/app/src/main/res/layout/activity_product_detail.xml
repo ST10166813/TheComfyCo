@@ -16,7 +16,7 @@
         app:title="PRODUCT DETAILS"
         app:titleCentered="true"
         app:titleTextColor="@color/black"
-        app:titleTextAppearance="@font/tenor_sans_reg"
+        app:titleTextAppearance="@style/ToolbarTitleText"
         app:navigationIconTint="@color/black" />
 
     <!-- Scrollable Content -->

@@ -1,160 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
+    android:fillViewport="true"
     android:background="@color/white"
-    android:padding="24dp">
+    tools:context=".RegisterActivity">
 
-    <!-- Back button -->
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="53dp"
-        android:layout_height="45dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/left" />
-
-    <!-- Centered logo below back button -->
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="214dp"
-        android:layout_height="177dp"
-        android:contentDescription="@string/app_name"
-        app:srcCompat="@drawable/comfyclub"
-        app:layout_constraintTop_toBottomOf="@id/btnBack"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:scaleType="fitCenter" />
-
-    <!-- FULL NAME -->
-    <TextView
-        android:id="@+id/fullNameLabel"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:text="FULL NAME"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/fullNameField"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        android:padding="24dp">
 
-    <EditText
-        android:id="@+id/fullNameField"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/edittext_bg_blackborder"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:hint="Name and Surname"
-        android:inputType="textPersonName"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fullNameLabel" />
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    <!-- EMAIL -->
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="53dp"
-        android:layout_height="17dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:text="EMAIL"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/emailField"
-        app:layout_constraintTop_toBottomOf="@id/fullNameField" />
+        <!-- Proportional Logo (centered, square, resizes with screen) -->
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/comfyclub"
+            app:layout_constraintTop_toBottomOf="@+id/btnBack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.6"
+            android:layout_marginTop="16dp"/>
 
-    <EditText
-        android:id="@+id/emailField"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:background="@drawable/edittext_bg_blackborder"
-        android:fontFamily="@font/tenor_sans_reg"
-        app:layout_constraintTop_toBottomOf="@id/emailLabel"
-        app:layout_constraintStart_toStartOf="@+id/fullNameField"
-        app:layout_constraintEnd_toEndOf="@+id/fullNameField"
-        android:layout_marginTop="8dp" />
+        <!-- FULL NAME -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fullNameLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="FULL NAME"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:boxBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- PASSWORD -->
-    <TextView
-        android:id="@+id/passwordLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:text="PASSWORD"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/passwordField"
-        app:layout_constraintTop_toBottomOf="@id/emailField" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fullNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:padding="12dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/passwordField"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="12dp"
-        android:background="@drawable/edittext_bg_blackborder"
-        android:fontFamily="@font/tenor_sans_reg"
-        app:layout_constraintTop_toBottomOf="@id/passwordLabel"
-        app:layout_constraintStart_toStartOf="@+id/emailField"
-        app:layout_constraintEnd_toEndOf="@+id/emailField"
-        android:layout_marginTop="8dp" />
+        <!-- EMAIL -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="EMAIL"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:boxBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/fullNameLayout"
+            app:layout_constraintStart_toStartOf="@id/fullNameLayout"
+            app:layout_constraintEnd_toEndOf="@id/fullNameLayout">
 
-    <!-- CONFIRM PASSWORD -->
-    <TextView
-        android:id="@+id/confirmPasswordLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:text="CONFIRM PASSWORD"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/confirmPasswordField"
-        app:layout_constraintTop_toBottomOf="@id/passwordField" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+                android:padding="12dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/confirmPasswordField"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:padding="12dp"
-        android:background="@drawable/edittext_bg_blackborder"
-        android:fontFamily="@font/tenor_sans_reg"
-        app:layout_constraintTop_toBottomOf="@id/confirmPasswordLabel"
-        app:layout_constraintStart_toStartOf="@+id/passwordField"
-        app:layout_constraintEnd_toEndOf="@+id/passwordField"
-        android:layout_marginTop="8dp" />
+        <!-- PASSWORD -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="PASSWORD"
+            app:endIconMode="password_toggle"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:boxBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/emailLayout"
+            app:layout_constraintStart_toStartOf="@id/emailLayout"
+            app:layout_constraintEnd_toEndOf="@id/emailLayout">
 
-    <!-- CREATE ACCOUNT BUTTON (sticks near bottom when space allows) -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreateAccount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/button_bg"
-        android:fontFamily="@font/tenor_sans_reg"
-        android:text="CREATE ACCOUNT"
-        android:textColor="@android:color/white"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirmPasswordField"
-        app:layout_constraintVertical_bias="0.363" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                android:padding="12dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- CONFIRM PASSWORD -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirmPasswordLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="CONFIRM PASSWORD"
+            app:endIconMode="password_toggle"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@android:color/darker_gray"
+            app:boxBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/passwordLayout"
+            app:layout_constraintStart_toStartOf="@id/passwordLayout"
+            app:layout_constraintEnd_toEndOf="@id/passwordLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirmPasswordField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="CONFIRM PASSWORD"
+                android:fontFamily="@font/tenor_sans_reg"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                android:padding="12dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- CREATE ACCOUNT BUTTON -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:text="CREATE ACCOUNT"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:background="@drawable/button_bg"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            app:layout_constraintTop_toBottomOf="@id/confirmPasswordLayout"
+            app:layout_constraintStart_toStartOf="@id/confirmPasswordLayout"
+            app:layout_constraintEnd_toEndOf="@id/confirmPasswordLayout"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

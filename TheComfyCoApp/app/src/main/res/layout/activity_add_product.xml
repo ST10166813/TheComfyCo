@@ -16,7 +16,7 @@
         app:titleCentered="true"
         app:titleTextColor="@color/black"
         app:navigationIconTint="@color/black"
-        app:titleTextAppearance="@font/tenor_sans_reg" />
+        app:titleTextAppearance="@style/ToolbarTitleText" />
 
     <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
