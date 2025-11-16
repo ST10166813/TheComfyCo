@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TheComfyCoApp</string>
+    <string name="default_web_client_id">35777820279-i379gs92h4bcqtr8prq306t595ik37u1.apps.googleusercontent.com</string>
+    <string name="navigation_menu">Imenyu yokuzula</string>
+
+    <string name="hello_blank_fragment">Sawubona fragment engenalutho</string>
+    <string name="dark_mode">Imodi emnyama</string>
+    <string name="light_mode">Imodi ekhanyayo</string>
+    <string name="nav_open">Vula i-drawer yokuzula</string>
+    <string name="nav_close">Vala i-drawer yokuzula</string>
+    <string name="search">Sesha</string>
+    <string name="clear">Sula</string>
+    <string name="search_product_hint">Sesha Umkhiqizo</string>
+    <string name="login">Ngena</string>
+    <string name="register">Bhalisa</string>
+    <string name="language">Ulimi</string>
+    <string name="text_size">Usayizi wombhalo</string>
+</resources>

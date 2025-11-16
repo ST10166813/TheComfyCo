@@ -77,7 +77,12 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.9.5")
     implementation("androidx.navigation:navigation-ui:2.9.5")
 
+   // Biometric API
+    implementation("androidx.biometric:biometric:1.2.0-alpha04")
 
+   // Encrypted SharedPreferences
+    implementation("androidx.security:security-crypto:1.1.0-alpha03")
+    // or latest stable
     implementation("com.google.code.gson:gson:2.10.1")
 
     implementation("com.google.android.material:material:1.3.0-alpha03")

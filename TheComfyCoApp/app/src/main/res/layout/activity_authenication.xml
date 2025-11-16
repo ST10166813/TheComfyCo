@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <!-- Very large logo (centered) -->
+        <!-- Logo -->
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="0dp"
@@ -42,7 +42,7 @@
             app:layout_constraintWidth_percent="0.9"
             android:layout_marginTop="8dp" />
 
-        <!-- EMAIL (outlined like Add Product page) -->
+        <!-- Email input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTil"
             android:layout_width="0dp"
@@ -67,7 +67,7 @@
                 android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- PASSWORD (outlined, with toggle) -->
+        <!-- Password input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordTil"
             android:layout_width="0dp"
@@ -107,7 +107,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="4dp"/>
 
-        <!-- LOGIN BUTTON -->
+        <!-- Login button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginBtn"
             android:layout_width="0dp"
@@ -122,25 +122,40 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp"/>
 
-        <!-- GOOGLE SIGN-IN (Material attrs use app: namespace) -->
+        <!-- Google Sign-In button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/googleSignInBtn"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/tenor_sans_reg"
             android:text="Sign in with Google"
             android:textColor="@color/black"
-            android:fontFamily="@font/tenor_sans_reg"
-            android:backgroundTint="@color/white"
-            app:strokeColor="@android:color/darker_gray"
-            app:icon="@drawable/icon_google"
-            app:iconPadding="12dp"
-            app:iconGravity="textStart"
-            app:iconTint="@null"
             app:cornerRadius="12dp"
-            app:layout_constraintTop_toBottomOf="@id/loginBtn"
+            app:icon="@drawable/icon_google"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/loginBtn"
+            app:strokeColor="@android:color/darker_gray" />
+
+        <!-- Biometric Login button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/biometricLoginBtn"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:text="Login with Biometrics"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:background="@drawable/button_bg"
+            app:backgroundTint="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/googleSignInBtn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
