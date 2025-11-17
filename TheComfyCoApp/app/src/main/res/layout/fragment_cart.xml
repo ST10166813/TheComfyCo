@@ -6,35 +6,160 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
 
+    <!-- Title -->
     <TextView
         android:id="@+id/tvCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/tenor_sans_reg"
         android:gravity="center"
         android:text="MY CART"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="?attr/colorOnBackground"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Bottom Navigation -->
+    <!-- Headers: PRODUCT | TOTAL -->
+    <LinearLayout
+        android:id="@+id/headerRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tvCart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvHeaderProduct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PRODUCT"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface" />
+
+        <TextView
+            android:id="@+id/tvHeaderTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TOTAL"
+            android:fontFamily="@font/tenor_sans_reg"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface" />
+    </LinearLayout>
+
+    <!-- RecyclerView: list of card items -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCartItems"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:paddingBottom="8dp"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/headerRow"
+        app:layout_constraintBottom_toTopOf="@id/checkoutBarCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Empty-state message (shown when no item) -->
     <TextView
         android:id="@+id/tvMessgae"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="312dp"
         android:fontFamily="@font/tenor_sans_reg"
         android:gravity="center"
-        android:text="COMING SOON"
-        android:textSize="20sp"
+        android:text="@string/cart_empty_message"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tvCart"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Checkout bar: total + button in proportion -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/checkoutBarCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:gravity="center_vertical">
+
+            <!-- Total text -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCartGrandTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total: R 0.00"
+                    android:fontFamily="@font/tenor_sans_reg"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:id="@+id/tvCartSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Shipping calculated at checkout"
+                    android:fontFamily="@font/tenor_sans_reg"
+                    android:textSize="11sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+
+            <!-- Checkout button (pill style) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCheckout"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:minWidth="0dp"
+                android:paddingStart="26dp"
+                android:paddingEnd="26dp"
+                android:text="CHECKOUT"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                android:fontFamily="@font/tenor_sans_reg"
+                app:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                app:cornerRadius="999dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

@@ -11,6 +11,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.thecomfycoapp.network.RetrofitClient
+import com.example.thecomfycoapp.utils.LanguageManager
 import com.example.thecomfycoapp.viewmodel.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -36,6 +37,7 @@ class AuthenicationActivity : AppCompatActivity() {
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var executor: Executor
 
+
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val data = result.data
@@ -44,6 +46,7 @@ class AuthenicationActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        LanguageManager.applySavedLanguage(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authenication)
 

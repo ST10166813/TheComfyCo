@@ -11,28 +11,26 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Toolbar inherits themed surface + text color -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/settingsToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorSurface"
-            app:title="MY SETTINGS"
+            app:title="@string/settings_title"
             app:titleCentered="true"
             app:titleTextColor="?attr/colorOnSurface"
-            app:titleTextAppearance="@style/TextAppearance.Comfy.ToolbarTitle"/>
+            app:titleTextAppearance="@style/TextAppearance.Comfy.ToolbarTitle" />
 
         <!-- LANGUAGE -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LANGUAGE"
+            android:text="@string/label_language"
             android:textStyle="bold"
             android:fontFamily="@font/tenor_sans_reg"
             android:textColor="?attr/colorOnBackground"
             android:layout_marginTop="18dp" />
 
-        <!-- Exposed dropdown WITHOUT underline -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilLanguage"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
@@ -53,27 +51,25 @@
                 android:id="@+id/actLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint=""
                 android:inputType="none"
+                android:background="@null"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:paddingVertical="10dp"
-                android:background="@null"
                 android:textColor="?attr/colorOnSurface"
                 android:textColorHint="?attr/colorOnSurface"
-                android:backgroundTint="@android:color/transparent"/>
+                android:backgroundTint="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- TEXT SIZE -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TEXT SIZE"
+            android:text="@string/label_text_size"
             android:textStyle="bold"
             android:fontFamily="@font/tenor_sans_reg"
             android:textColor="?attr/colorOnBackground"
             android:layout_marginTop="18dp" />
 
-        <!-- Exposed dropdown WITHOUT underline -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilTextSize"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
@@ -94,21 +90,20 @@
                 android:id="@+id/actTextSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint=""
                 android:inputType="none"
+                android:background="@null"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:paddingVertical="10dp"
-                android:background="@null"
                 android:textColor="?attr/colorOnSurface"
                 android:textColorHint="?attr/colorOnSurface"
-                android:backgroundTint="@android:color/transparent"/>
+                android:backgroundTint="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- DISPLAY MODE -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DISPLAY MODE"
+            android:text="@string/label_display_mode"
             android:textStyle="bold"
             android:fontFamily="@font/tenor_sans_reg"
             android:textColor="?attr/colorOnBackground"
@@ -125,21 +120,22 @@
                 android:id="@+id/rbLight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Light Mode"
+                android:text="@string/mode_light"
                 android:checked="true"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:textColor="?attr/colorOnBackground"
-                android:buttonTint="?attr/colorPrimary"/>
+                android:buttonTint="?attr/colorPrimary" />
 
             <RadioButton
                 android:id="@+id/rbDark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dark Mode"
+                android:text="@string/mode_dark"
                 android:layout_marginStart="24dp"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:textColor="?attr/colorOnBackground"
-                android:buttonTint="?attr/colorPrimary"/>
+                android:buttonTint="?attr/colorPrimary" />
         </RadioGroup>
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

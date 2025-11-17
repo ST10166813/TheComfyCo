@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/cartFragment"
-        android:icon="@drawable/icon_settings"
-        android:title="Settings" />
+        android:icon="@drawable/icon_products"
+        android:title="Products" />
 
 </menu>

@@ -8,51 +8,40 @@
     android:layout_height="match_parent"
     tools:context=".UserProductListActivity">
 
-    <!-- Top App Bar (like Settings) -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorSurface"
-        app:title=""
-        app:navigationIconTint="?attr/colorOnSurface"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Big heading and subheading (cohesive with Home) -->
+    <!-- Big heading -->
     <TextView
         android:id="@+id/tvHeading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/tenor_sans_reg"
-        android:text="OUR\nCOLLECTION"
+        android:text="@string/products_list_heading"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="?attr/colorOnBackground"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Subheading -->
     <TextView
         android:id="@+id/tvSubHeading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:fontFamily="@font/tenor_sans_reg"
-        android:text="Browse all products from The Comfy Co"
+        android:text="@string/products_list_subheading"
         android:textSize="14sp"
         android:textColor="?attr/colorOnSurfaceVariant"
         app:layout_constraintTop_toBottomOf="@id/tvHeading"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Pill search bar (same as Home) -->
+    <!-- Search bar -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilSearchList"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense"
@@ -68,9 +57,7 @@
         app:boxCornerRadiusBottomEnd="28dp"
         app:boxBackgroundColor="?attr/colorSurface"
         app:startIconDrawable="@android:drawable/ic_menu_search"
-        app:startIconContentDescription="@string/search"
         app:endIconMode="clear_text"
-        app:endIconContentDescription="@string/clear"
         app:layout_constraintTop_toBottomOf="@id/tvSubHeading"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -103,7 +90,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_product" />
 
-    <!-- Loading -->
+    <!-- Loading spinner -->
     <ProgressBar
         android:id="@+id/progress"
         style="?android:attr/progressBarStyleLarge"
@@ -115,7 +102,7 @@
         app:layout_constraintStart_toStartOf="@id/recyclerViewUserProducts"
         app:layout_constraintEnd_toEndOf="@id/recyclerViewUserProducts" />
 
-    <!-- Empty/Error -->
+    <!-- Empty / Error state -->
     <TextView
         android:id="@+id/tvState"
         android:layout_width="0dp"

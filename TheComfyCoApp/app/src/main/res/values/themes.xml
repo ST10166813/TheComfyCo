@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base Day/Night app theme -->
+    <!-- Main app theme (light/dark aware) -->
     <style name="Theme.TheComfyCoApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- You can set brand colors here if you want -->
-        <!-- <item name="colorPrimary">@color/your_primary</item> -->
-        <!-- <item name="colorSecondary">@color/your_secondary</item> -->
-        <!-- Typography/Shapes etc as needed -->
+
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorOnBackground">@color/black</item>
+        <!-- fallback text colors -->
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+
     </style>
 
-    <!-- Android 12+ SplashScreen API theme -->
+
+    <!-- Android 12+ Splash Screen -->
     <style name="Theme.TheComfyCoApp.Splash" parent="Theme.SplashScreen">
-        <!-- Background for splash screen -->
         <item name="windowSplashScreenBackground">@color/white</item>
-
-        <!-- Your animated or static launcher icon -->
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
-
-        <!-- After splash, use the main app theme -->
         <item name="postSplashScreenTheme">@style/Theme.TheComfyCoApp</item>
     </style>
 

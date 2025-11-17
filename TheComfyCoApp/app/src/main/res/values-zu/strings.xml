@@ -1,19 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TheComfyCoApp</string>
-    <string name="default_web_client_id">35777820279-i379gs92h4bcqtr8prq306t595ik37u1.apps.googleusercontent.com</string>
-    <string name="navigation_menu">Imenyu yokuzula</string>
+    <string name="app_name">The Comfy Co</string>
 
+    <string name="default_web_client_id">
+        35777820279-i379gs92h4bcqtr8prq306t595ik37u1.apps.googleusercontent.com
+    </string>
+
+    <!-- Navigation / generic -->
+    <string name="navigation_menu">Imenyu yokuzulazula</string>
     <string name="hello_blank_fragment">Sawubona fragment engenalutho</string>
-    <string name="dark_mode">Imodi emnyama</string>
-    <string name="light_mode">Imodi ekhanyayo</string>
-    <string name="nav_open">Vula i-drawer yokuzula</string>
-    <string name="nav_close">Vala i-drawer yokuzula</string>
+    <string name="nav_open">Vula i-drawer yokuzulazula</string>
+    <string name="nav_close">Vala i-drawer yokuzulazula</string>
     <string name="search">Sesha</string>
     <string name="clear">Sula</string>
-    <string name="search_product_hint">Sesha Umkhiqizo</string>
-    <string name="login">Ngena</string>
-    <string name="register">Bhalisa</string>
-    <string name="language">Ulimi</string>
-    <string name="text_size">Usayizi wombhalo</string>
+    <string name="search_product_hint">Sesha umkhiqizo</string>
+
+    <!-- Settings -->
+    <string name="settings_title">IZILUNGISELELO ZAMI</string>
+    <string name="label_language">ULIMI</string>
+    <string name="label_text_size">USAYIZI WOMBHALO</string>
+    <string name="label_display_mode">IMODE YOKUBONISA</string>
+    <string name="mode_light">Imodi ekhanyayo</string>
+    <string name="mode_dark">Imodi emnyama</string>
+
+    <!-- Dropdown options -->
+    <string name="lang_english">IsiNgisi</string>
+    <string name="lang_isizulu">IsiZulu</string>
+
+    <string name="text_size_small">Encane</string>
+    <string name="text_size_medium">Maphakathi</string>
+    <string name="text_size_large">Nkulu</string>
+
+    <!-- HOME / DRAWER -->
+    <string name="home_title">Ikhaya</string>
+    <string name="drawer_profile">IPROFAYILI</string>
+    <string name="drawer_settings">IZILUNGISELELO</string>
+    <string name="drawer_sign_out">PHUMA</string>
+    <!-- HOME FRAGMENT -->
+    <string name="home_hi_user">SAWUBONA\nUMSEBENZISI!</string>
+    <string name="home_view_products">Buka imikhiqizo</string>
+    <string name="home_error_generic">Kukhona okungahambanga kahle. Sicela uzame futhi.</string>
+
+
+    <!-- BOTTOM NAV -->
+    <string name="nav_home">Ikhaya</string>
+    <string name="nav_products">Imikhiqizo</string>
+    <string name="nav_cart">Ibhasikidi</string>
+    <string name="nav_wishlist">Uhlu lwezifiso</string>
+
+    <!-- PRODUCT LIST / DETAIL -->
+    <string name="products_title">Imikhiqizo</string>
+    <string name="product_price">Intengo</string>
+    <string name="product_colour">Umbala</string>
+    <string name="product_size">Usayizi</string>
+    <string name="product_description">Incazelo</string>
+    <string name="product_quantity_label">Inani</string>
+    <string name="btn_add_to_cart">Faka ebhasikidini</string>
+    <string name="cart_empty_message">Ikhathoni yakho ayinalutho</string>
+    <string name="btn_view_details">Buka imininingwane</string>
+
+    <!-- PRODUCT DETAIL SCREEN -->
+    <string name="product_detail_title">Umkhiqizo</string>
+    <string name="product_available_sizes">Osayizi abatholakalayo</string>
+
+    <!-- PRODUCT LIST SCREEN -->
+    <string name="products_list_title">Imikhiqizo</string>
+    <string name="products_list_heading">IQOQO\nLETHU</string>
+    <string name="products_list_subheading">Buka yonke imikhiqizo ye The Comfy Co</string>
+
+    <!-- CART -->
+    <string name="cart_title">Ibhasikidi lami</string>
+    <string name="cart_empty">Ibhasikidi lakho alinalutho</string>
+    <string name="cart_total">Isamba</string>
+    <string name="cart_checkout">Qeda ukuthenga</string>
+    <string name="cart_continue_shopping">Qhubeka nokuthenga</string>
+
+    <string name="product_stock_label">Isitoko: %1$d</string>
+
 </resources>

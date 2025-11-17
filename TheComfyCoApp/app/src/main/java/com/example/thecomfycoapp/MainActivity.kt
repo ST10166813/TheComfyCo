@@ -6,31 +6,33 @@ import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.thecomfycoapp.network.RetrofitClient
+import com.example.thecomfycoapp.utils.LanguageManager
 
 class MainActivity : ComponentActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply saved language first so the whole activity loads in that locale
+        LanguageManager.applySavedLanguage(this)
+
+        // Optional splash screen
         val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize Retrofit and retrieve the token from SharedPreferences
+        // Init Retrofit
         RetrofitClient.init(applicationContext)
 
-        val loginBtn = findViewById<Button>(R.id.loginbtn)   // LOGIN button
-        val registerBtn = findViewById<Button>(R.id.registerbtn) // CREATE ACCOUNT button
+        // Buttons
+        val loginBtn = findViewById<Button>(R.id.loginbtn)
+        val registerBtn = findViewById<Button>(R.id.registerbtn)
 
-// When LOGIN clicked → go to LoginActivity
         loginBtn.setOnClickListener {
-            val intent = Intent(this, AuthenicationActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AuthenicationActivity::class.java))
         }
 
-        // When REGISTER clicked → go to RegisterActivity
         registerBtn.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 }

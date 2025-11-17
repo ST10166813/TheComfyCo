@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -58,6 +59,18 @@
                 android:textSize="12sp"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 tools:text="Stock: 20 units" />
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/btnAddToCart"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:text="@string/btn_add_to_cart"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:fontFamily="@font/tenor_sans_reg"-->
+<!--                app:backgroundTint="@android:color/black"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                app:iconTint="@android:color/white" />-->
 
         </LinearLayout>
     </LinearLayout>

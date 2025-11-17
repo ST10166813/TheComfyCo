@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.thecomfycoapp.utils.LanguageManager
 import com.example.thecomfycoapp.viewmodel.AuthViewModel
 import com.google.android.material.button.MaterialButton
 
@@ -14,6 +15,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var viewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        LanguageManager.applySavedLanguage(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
