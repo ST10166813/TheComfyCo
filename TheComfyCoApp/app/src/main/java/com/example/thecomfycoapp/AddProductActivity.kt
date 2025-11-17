@@ -1,17 +1,23 @@
 package com.example.thecomfycoapp
 
-import com.google.gson.Gson // Add this import
+import com.google.gson.Gson
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.thecomfycoapp.models.Variant
 import com.example.thecomfycoapp.network.RetrofitClient
-import kotlinx.coroutines.CoroutineScope
+import com.example.thecomfycoapp.offline.AppDatabase
+import com.example.thecomfycoapp.offline.OfflineProduct
+import com.example.thecomfycoapp.offline.OfflineSyncManager
+import com.example.thecomfycoapp.utils.InternetCheck
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -53,17 +59,12 @@ class AddProductActivity : AppCompatActivity() {
             startActivityForResult(intent, PICK_IMAGE)
         }
 
-        btnAddVariant.setOnClickListener {
-            addVariantField()
-        }
-
-        btnUpload.setOnClickListener {
-            uploadProduct()
-        }
+        btnAddVariant.setOnClickListener { addVariantField() }
+        btnUpload.setOnClickListener { uploadProduct() }
     }
 
     private fun addVariantField() {
-        val variantLayout = LinearLayout(this).apply {
+        val layout = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -71,159 +72,165 @@ class AddProductActivity : AppCompatActivity() {
             )
         }
 
-        val etSize = EditText(this).apply {
+        val size = EditText(this).apply {
             hint = "Size"
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            layoutParams = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
         }
 
-        val etStock = EditText(this).apply {
+        val stock = EditText(this).apply {
             hint = "Stock"
             inputType = android.text.InputType.TYPE_CLASS_NUMBER
-            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+            layoutParams = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
         }
 
-        variantLayout.addView(etSize)
-        variantLayout.addView(etStock)
+        layout.addView(size)
+        layout.addView(stock)
 
-        variantContainer.addView(variantLayout)
+        variantContainer.addView(layout)
     }
 
-    private fun collectVariants(): List<com.example.thecomfycoapp.models.Variant> {
-        // Note: If you imported com.example.thecomfycoapp.models.Variant,
-        // you don't need the full path.
-        val variants = mutableListOf<com.example.thecomfycoapp.models.Variant>()
+    private fun collectVariants(): List<Variant> {
+        val list = mutableListOf<Variant>()
 
         for (i in 0 until variantContainer.childCount) {
             val layout = variantContainer.getChildAt(i) as LinearLayout
-            val etSize = layout.getChildAt(0) as EditText
-            val etStock = layout.getChildAt(1) as EditText
-            // Note: Your layout does not have a color field, so we assume 'color' is null/empty.
-
-            val size = etSize.text.toString()
-            val stock = etStock.text.toString().toIntOrNull()
+            val size = (layout.getChildAt(0) as EditText).text.toString()
+            val stock = (layout.getChildAt(1) as EditText).text.toString().toIntOrNull()
 
             if (size.isNotEmpty() && stock != null) {
-                // Use your actual Variant data class
-                variants.add(
-                    com.example.thecomfycoapp.models.Variant(
-                        size = size,
-                        color = null,
-                        stock = stock
-                    )
-                )
+                list.add(Variant(size = size, color = null, stock = stock))
             }
         }
-        return variants
+        return list
     }
 
-    // IMPROVED getFileFromUri to use 'use' block for better resource management
     fun getFileFromUri(context: Context, uri: Uri): File {
-        val contentResolver = context.contentResolver
-        val tempFile = File.createTempFile("upload", ".jpg", context.cacheDir)
-
-        // Use 'use' blocks to ensure streams are closed even if an exception occurs
-        contentResolver.openInputStream(uri)?.use { inputStream ->
-            FileOutputStream(tempFile).use { outputStream ->
-                inputStream.copyTo(outputStream)
-            }
-        } ?: throw RuntimeException("Could not open input stream from URI: $uri")
-
-        return tempFile
+        val temp = File.createTempFile("upload", ".jpg", context.cacheDir)
+        contentResolver.openInputStream(uri)?.use { input ->
+            FileOutputStream(temp).use { output -> input.copyTo(output) }
+        }
+        return temp
     }
 
     private fun uploadProduct() {
         val nameStr = etName.text.toString()
-        val descriptionStr = etDescription.text.toString()
-        val priceDbl = etPrice.text.toString().toDoubleOrNull()
-        val stockInt = etStock.text.toString().toIntOrNull()
-        val variantsList = collectVariants()
-        val activityContext = this@AddProductActivity // Save context for use in coroutine
+        val descStr = etDescription.text.toString()
+        val price = etPrice.text.toString().toDoubleOrNull()
+        val stock = etStock.text.toString().toIntOrNull()
+        val variants = collectVariants()
+        val ctx = this
 
-        // --- VALIDATION (Stays on Main Thread) ---
-        if (nameStr.isEmpty() || priceDbl == null || stockInt == null) {
-            Toast.makeText(activityContext, "Fill in all required fields (Name, Price, Stock).", Toast.LENGTH_SHORT).show()
+        if (nameStr.isEmpty() || price == null || stock == null) {
+            Toast.makeText(ctx, "Fill required fields.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val totalVariantStock = variantsList.sumOf { it.stock ?: 0 }
-        if (totalVariantStock != stockInt) {
-            Toast.makeText(activityContext, "Error: Total variant stock ($totalVariantStock) must equal Initial Stock ($stockInt).", Toast.LENGTH_LONG).show()
+        val totalVariantStock = variants.sumOf { it.stock ?: 0 }
+        if (totalVariantStock != stock) {
+            Toast.makeText(ctx, "Variant stock must equal total stock.", Toast.LENGTH_LONG).show()
             return
         }
 
-        // Check image selection immediately on the main thread
-        val currentImageUri = imageUri
-        if (currentImageUri == null) {
-            Toast.makeText(activityContext, "Please select an image.", Toast.LENGTH_SHORT).show()
+        val img = imageUri
+        if (img == null) {
+            Toast.makeText(ctx, "Select an image.", Toast.LENGTH_SHORT).show()
             return
         }
-        // --- END VALIDATION ---
 
-        // Helper function for text parts
-        fun createTextRequestBody(text: String) =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), text)
+        lifecycleScope.launch(Dispatchers.IO) {
 
-        // Convert data to RequestBody parts (Fast operations, stay on Main Thread)
-        val namePart = createTextRequestBody(nameStr)
-        val descriptionPart = createTextRequestBody(descriptionStr)
-        val pricePart = createTextRequestBody(priceDbl.toString())
-        val stockPart = createTextRequestBody(stockInt.toString())
-
-        val variantsJson = Gson().toJson(variantsList)
-        val variantsPart = RequestBody.create("text/plain".toMediaTypeOrNull(), variantsJson)
+            // 🛑 CRITICAL TEMPORARY CHANGE FOR TESTING:
+            // Change this to 'val isOnline = false' to force the offline save and test Room DB.
+            val isOnline = InternetCheck.isOnline(ctx)
 
 
-        // --- NETWORK AND I/O (Moved to Background Thread) ---
-        CoroutineScope(Dispatchers.IO).launch {
+            // If OFFLINE → Save to RoomDB
+            if (!isOnline) {
+                try {
+                    val offlineImage = getFileFromUri(ctx, img).absolutePath
+
+                    AppDatabase.getDatabase(ctx)
+                        .offlineProductDao()
+                        .insert(
+                            OfflineProduct(
+                                name = nameStr,
+                                description = descStr,
+                                price = price,
+                                stock = stock,
+                                variants = Gson().toJson(variants),
+                                imagePath = offlineImage
+                            )
+                        )
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(ctx, "Saved offline! Will sync later.", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                } catch (e: Exception) {
+                    Log.e("OfflineInsert", "Failed to insert product offline", e)
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(ctx, "Offline save failed: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+                return@launch
+            }
+
+
+            // ONLINE → Normal upload (Wrapped in try-catch to prevent crash on network failure)
             try {
-                // 1. FILE I/O - Must be in Dispatchers.IO
-                val file = getFileFromUri(activityContext, currentImageUri)
-                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                val file = getFileFromUri(ctx, img)
+                val reqFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                val imagePart = MultipartBody.Part.createFormData("image", file.name, reqFile)
 
-                // Field name "image" must match backend expectation (e.g., upload.single('image'))
-                val imagePart = MultipartBody.Part.createFormData("image", file.name, requestFile)
+                val namePart = RequestBody.create("text/plain".toMediaTypeOrNull(), nameStr)
+                val descPart = RequestBody.create("text/plain".toMediaTypeOrNull(), descStr)
+                val pricePart = RequestBody.create("text/plain".toMediaTypeOrNull(), price.toString())
+                val stockPart = RequestBody.create("text/plain".toMediaTypeOrNull(), stock.toString())
+                val variantsPart = RequestBody.create("text/plain".toMediaTypeOrNull(), Gson().toJson(variants))
 
-                // 2. NETWORK CALL - Use corrected variable names
-                val response = RetrofitClient.api.createProduct( // Assuming function is 'createProduct'
-                    namePart,
-                    descriptionPart,
-                    pricePart,
-                    stockPart,
-                    variantsPart,
-                    imagePart
+                val response = RetrofitClient.api.createProduct(
+                    namePart, descPart, pricePart, stockPart, variantsPart, imagePart
                 )
 
-                // 3. UI UPDATE - Switch to Main Dispatcher
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
-                        Toast.makeText(activityContext, "✅ Product uploaded!", Toast.LENGTH_SHORT).show()
-                        activityContext.finish()
+                        Toast.makeText(ctx, "Product uploaded!", Toast.LENGTH_SHORT).show()
+                        finish()
                     } else {
-                        val errorMsg = response.errorBody()?.string()
-                        Toast.makeText(activityContext, "❌ Upload failed: ${response.code()} - $errorMsg", Toast.LENGTH_LONG).show()
+                        Toast.makeText(ctx, "Upload failed: ${response.code()}", Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {
-                // 4. ERROR HANDLING - Switch to Main Dispatcher
+                // Catches IOException (e.g., Unable to resolve host) and other network issues
+                Log.e("OnlineUpload", "Network error during online upload attempt: ${e.message}", e)
+
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(activityContext, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    // Show a non-crashing failure message
+                    Toast.makeText(ctx, "Upload failed: Check your internet connection.", Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            // 1. Set the class-level variable
             imageUri = data?.data
-
-            // 2. Display the image in the ImageView
             imgPreview.setImageURI(imageUri)
-
             Toast.makeText(this, "Image selected!", Toast.LENGTH_SHORT).show()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Auto-sync any offline products
+        lifecycleScope.launch {
+            if (InternetCheck.isOnline(this@AddProductActivity)) {
+                // The sync manager should also have try-catch blocks internally
+                OfflineSyncManager.syncProducts(this@AddProductActivity)
+            }
+        }
     }
-
-
-
+}

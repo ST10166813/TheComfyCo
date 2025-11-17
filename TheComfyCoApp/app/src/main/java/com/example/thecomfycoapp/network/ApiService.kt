@@ -45,4 +45,13 @@ interface ApiService {
 
     @DELETE("api/products/{id}")
     suspend fun deleteProduct(@Path("id") id: String): Response<Map<String, String>>
+
+    @POST("api/auth/forgot-password")
+    suspend fun forgotPassword(@Body request: Map<String, String>): Response<ApiResponse>
+
+    @POST("api/auth/reset-password")
+    suspend fun resetPassword(@Body request: Map<String, String>): Response<ApiResponse>
+
+    @POST("api/admin/save-device-token")
+    suspend fun saveDeviceToken(@Body request: Map<String, String>): ApiResponse
 }

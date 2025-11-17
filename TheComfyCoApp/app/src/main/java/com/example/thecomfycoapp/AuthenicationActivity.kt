@@ -3,6 +3,7 @@ package com.example.thecomfycoapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,8 @@ class AuthenicationActivity : AppCompatActivity() {
     private lateinit var emailEt: TextInputEditText
     private lateinit var passwordEt: TextInputEditText
 
+    private lateinit var forgotBtn: Button
+
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var executor: Executor
@@ -55,10 +58,18 @@ class AuthenicationActivity : AppCompatActivity() {
         loginBtn = findViewById(R.id.loginBtn)
         googleSignInBtn = findViewById(R.id.googleSignInBtn)
         biometricBtn = findViewById(R.id.biometricLoginBtn)
+        forgotBtn = findViewById(R.id.forgotBtn)
 
         biometricBtn.isEnabled = false
 
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+
+        // -----------------------------
+        // FORGOT PASSWORD CLICK
+        // -----------------------------
+        forgotBtn.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
 
         // -----------------------------
         // EMAIL/PASSWORD LOGIN

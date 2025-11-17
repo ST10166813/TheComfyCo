@@ -11,7 +11,7 @@ object RetrofitClient {
     lateinit var api: ApiService
 
     // NOTE the trailing slash (recommended by Retrofit)
-    const val BASE_URL = "https://thecomfycoapi-1.onrender.com/"
+    const val BASE_URL = "https://thecomfycoapi-1.onrender.com"
 
     private var token: String? = null
 

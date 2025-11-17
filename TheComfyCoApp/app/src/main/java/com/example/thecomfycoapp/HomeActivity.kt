@@ -240,11 +240,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.thecomfycoapp.network.RetrofitClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.appbar.MaterialToolbar
@@ -252,6 +254,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
 
@@ -416,6 +420,20 @@ class HomeActivity : AppCompatActivity() {
             // Keep the Activity bottom nav's checked state in sync
             syncBottomNavSelection(destination.id)
         }
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                // Send to backend
+                lifecycleScope.launch {
+                    try {
+                        RetrofitClient.api.saveDeviceToken(mapOf("token" to token))
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
+
     }
 
     private fun isAtTopLevel(destId: Int = navController.currentDestination?.id ?: -1): Boolean {
