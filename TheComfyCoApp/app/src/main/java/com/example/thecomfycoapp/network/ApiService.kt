@@ -143,4 +143,11 @@ interface ApiService {
     // Again: interceptor adds Authorization for you
     @GET("api/admin/orders")
     suspend fun getOrders(): Response<List<OrderResponse>>
+
+    @POST("orders")
+    suspend fun placeOrder(
+        @Body order: OrderRequest
+    ): Response<OrderResponse>
+
+
 }

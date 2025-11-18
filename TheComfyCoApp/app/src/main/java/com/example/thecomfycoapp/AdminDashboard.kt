@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.thecomfycoapp.network.RetrofitClient
 import com.example.thecomfycoapp.offline.OfflineSyncManager
+import com.example.thecomfycoapp.utils.FCMTokenSender
 import com.example.thecomfycoapp.utils.InternetCheck
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.messaging.FirebaseMessaging
@@ -89,43 +90,7 @@ class AdminDashboard : AppCompatActivity() {
         loadDashboard()
 
         // ---- FCM TOKEN REGISTRATION (with correct saveDeviceToken call) ----
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.e("FCMToken", "Failed to get FCM token", task.exception)
-                return@addOnCompleteListener
-            }
-
-            val fcmToken = task.result
-            Log.d("FCMToken", fcmToken ?: "No token received")
-
-            val prefs = getSharedPreferences("auth", MODE_PRIVATE)
-            val jwtToken = prefs.getString("token", null)
-
-            // Only send to backend if we have BOTH tokens
-            if (!jwtToken.isNullOrEmpty() && !fcmToken.isNullOrEmpty()) {
-
-                // ✅ Make sure Retrofit uses this admin JWT
-                RetrofitClient.setToken(jwtToken)
-
-                lifecycleScope.launch(Dispatchers.IO) {
-                    try {
-                        val response = RetrofitClient.api.saveDeviceToken(
-                            mapOf("token" to fcmToken)
-                        )
-
-                        Log.d(
-                            "FCMToken",
-                            if (response.isSuccessful)
-                                "Token registered successfully"
-                            else
-                                "Failed: ${response.code()} ${response.message()}"
-                        )
-                    } catch (e: Exception) {
-                        Log.e("FCMToken", "Exception sending token", e)
-                    }
-                }
-            }
-        }
+        FCMTokenSender.sendToken(this, lifecycleScope)
     }
 
     override fun onResume() {

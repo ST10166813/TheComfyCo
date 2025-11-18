@@ -19,6 +19,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.thecomfycoapp.network.RetrofitClient
+import com.example.thecomfycoapp.utils.FCMTokenSender
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.appbar.MaterialToolbar
@@ -183,14 +184,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         // ----- FCM token (fixed to use new ApiService signature) -----
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.e("FCMToken", "Failed to get token", task.exception)
-                return@addOnCompleteListener
-            }
-            val fcmToken = task.result ?: ""
-            sendTokenToBackend(fcmToken)
-        }
+        FCMTokenSender.sendToken(this, lifecycleScope)
     }
 
     // ---------- FCM TOKEN SEND (NO authHeader PARAM) ----------
