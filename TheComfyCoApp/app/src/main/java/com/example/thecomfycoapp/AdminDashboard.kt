@@ -35,7 +35,10 @@ class AdminDashboard : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_admin_dashboard)
 
-        // Views
+        // ✅ Make sure Retrofit uses the latest token from SharedPreferences
+        RetrofitClient.init(applicationContext)
+
+        // ---- Bind views ----
         tvStatProducts = findViewById(R.id.tvStatProducts)
         tvStatStock = findViewById(R.id.tvStatStock)
         tvStatLowStock = findViewById(R.id.tvStatLowStock)
@@ -46,23 +49,34 @@ class AdminDashboard : AppCompatActivity() {
         manageOrdersBtn = findViewById(R.id.manageOrdersBtn)
         refreshBtn = findViewById(R.id.refreshBtn)
 
-        // Navigate to screens
+        // ---- Navigation buttons ----
         addProductBtn.setOnClickListener {
             startActivity(Intent(this, AddProductActivity::class.java))
         }
+
         viewProductBtn.setOnClickListener {
             startActivity(Intent(this, ProductsActivity::class.java))
         }
+
         manageOrdersBtn.setOnClickListener {
-            Toast.makeText(this, "Orders module coming soon ✨", Toast.LENGTH_SHORT).show()
+            // ✅ Go to ManageOrdersActivity
+            startActivity(Intent(this, ManageOrdersActivity::class.java))
         }
+
         refreshBtn.setOnClickListener { loadDashboard() }
 
-        // Initial load
-        loadDashboard()
-
+        // ---- Logout ----
         val logoutBtn: MaterialButton = findViewById(R.id.logoutBtn)
         logoutBtn.setOnClickListener {
+            // Clear auth prefs
+            getSharedPreferences("auth", MODE_PRIVATE)
+                .edit()
+                .clear()
+                .apply()
+
+            // Also reset token in Retrofit
+            RetrofitClient.setToken(null)
+
             startActivity(
                 Intent(this, AuthenicationActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -71,31 +85,45 @@ class AdminDashboard : AppCompatActivity() {
             finish()
         }
 
-        // FCM token registration
+        // ---- Initial dashboard load ----
+        loadDashboard()
+
+        // ---- FCM TOKEN REGISTRATION (with correct saveDeviceToken call) ----
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val fcmToken = task.result
-                Log.d("FCMToken", fcmToken ?: "No token received")
-                val jwtToken = getSharedPreferences("auth", MODE_PRIVATE).getString("token", null)
-                if (!jwtToken.isNullOrEmpty() && fcmToken != null) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        try {
-                            val response = RetrofitClient.api.saveDeviceToken(
-                                authHeader = "Bearer $jwtToken",
-                                body = mapOf("token" to fcmToken)
-                            )
-                            Log.d(
-                                "FCMToken",
-                                if (response.isSuccessful) "Token registered successfully"
-                                else "Failed: ${response.code()} ${response.message()}"
-                            )
-                        } catch (e: Exception) {
-                            Log.e("FCMToken", "Exception sending token", e)
-                        }
+            if (!task.isSuccessful) {
+                Log.e("FCMToken", "Failed to get FCM token", task.exception)
+                return@addOnCompleteListener
+            }
+
+            val fcmToken = task.result
+            Log.d("FCMToken", fcmToken ?: "No token received")
+
+            val prefs = getSharedPreferences("auth", MODE_PRIVATE)
+            val jwtToken = prefs.getString("token", null)
+
+            // Only send to backend if we have BOTH tokens
+            if (!jwtToken.isNullOrEmpty() && !fcmToken.isNullOrEmpty()) {
+
+                // ✅ Make sure Retrofit uses this admin JWT
+                RetrofitClient.setToken(jwtToken)
+
+                lifecycleScope.launch(Dispatchers.IO) {
+                    try {
+                        val response = RetrofitClient.api.saveDeviceToken(
+                            mapOf("token" to fcmToken)
+                        )
+
+                        Log.d(
+                            "FCMToken",
+                            if (response.isSuccessful)
+                                "Token registered successfully"
+                            else
+                                "Failed: ${response.code()} ${response.message()}"
+                        )
+                    } catch (e: Exception) {
+                        Log.e("FCMToken", "Exception sending token", e)
                     }
                 }
-            } else {
-                Log.e("FCMToken", "Failed to get FCM token", task.exception)
             }
         }
     }
@@ -116,7 +144,9 @@ class AdminDashboard : AppCompatActivity() {
                 val totalProducts = products.size
                 val totalStock = products.sumOf { it.stock ?: 0 }
                 val lowStock = products.count { (it.stock ?: 0) <= lowStockThreshold }
-                val recentList = products.takeLast(5)
+
+                val recentList = products
+                    .takeLast(5)
                     .reversed()
                     .joinToString("\n") { "• ${it.name}" }
                     .ifBlank { "• No recent actions yet." }
@@ -130,7 +160,11 @@ class AdminDashboard : AppCompatActivity() {
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@AdminDashboard, "Failed to load: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@AdminDashboard,
+                        "Failed to load: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

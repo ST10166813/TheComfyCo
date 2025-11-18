@@ -18,7 +18,6 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <!-- Product image -->
         <ImageView
             android:id="@+id/imgCartProduct"
             android:layout_width="72dp"
@@ -27,7 +26,6 @@
             android:scaleType="centerCrop"
             android:contentDescription="@string/app_name" />
 
-        <!-- Product details + quantity + delete -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,7 +52,6 @@
                 android:textSize="12sp"
                 android:textColor="?attr/colorOnSurfaceVariant" />
 
-            <!-- Quantity + delete row -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +59,6 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <!-- - 1 + box -->
                 <LinearLayout
                     android:id="@+id/layoutQty"
                     android:layout_width="wrap_content"
@@ -110,18 +106,16 @@
                         android:focusable="true" />
                 </LinearLayout>
 
-                <!-- Delete icon -->
                 <ImageView
                     android:id="@+id/imgDelete"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="12dp"
                     android:src="@android:drawable/ic_menu_delete"
-                    android:tint="?attr/colorOnSecondary" />
+                    android:tint="?attr/colorOnSurface" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Total for this line -->
         <TextView
             android:id="@+id/tvCartItemTotal"
             android:layout_width="wrap_content"

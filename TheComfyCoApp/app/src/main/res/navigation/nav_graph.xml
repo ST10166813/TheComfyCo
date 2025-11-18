@@ -5,26 +5,46 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/id_home_fragment">
 
+    <!-- HOME -->
     <fragment
         android:id="@+id/id_home_fragment"
         android:name="com.example.thecomfycoapp.Fragments.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
+
+    <!-- PROFILE -->
     <fragment
         android:id="@+id/id_profile_fragment"
         android:name="com.example.thecomfycoapp.Fragments.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
-        <fragment
-            android:id="@+id/id_settings_fragments"
-            android:name="com.example.thecomfycoapp.Fragments.SettingsFragment"
-            android:label="Settings"
-            tools:layout="@layout/fragment_settings" />
-        <fragment
-            android:id="@+id/id_cart_fragment"
-            android:name="com.example.thecomfycoapp.Fragments.CartFragment"
-            android:label="Cart"
-            tools:layout="@layout/fragment_cart" />
 
+    <!-- SETTINGS -->
+    <fragment
+        android:id="@+id/id_settings_fragments"
+        android:name="com.example.thecomfycoapp.Fragments.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <!-- CART -->
+    <fragment
+        android:id="@+id/id_cart_fragment"
+        android:name="com.example.thecomfycoapp.Fragments.CartFragment"
+        android:label="Cart"
+        tools:layout="@layout/fragment_cart" />
+
+    <!-- CHECKOUT -->
+    <fragment
+        android:id="@+id/id_checkout_fragment"
+        android:name="com.example.thecomfycoapp.Fragments.CheckoutFragment"
+        android:label="Checkout"
+        tools:layout="@layout/fragment_checkout" />
+
+    <!-- ORDER CONFIRMATION -->
+    <fragment
+        android:id="@+id/id_order_confirmation_fragment"
+        android:name="com.example.thecomfycoapp.Fragments.OrderConfirmationFragment"
+        android:label="Order Confirmation"
+        tools:layout="@layout/fragment_order_confirmation" />
 
 </navigation>

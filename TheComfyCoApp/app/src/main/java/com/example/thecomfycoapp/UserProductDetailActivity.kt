@@ -307,17 +307,16 @@
 //        }
 //    }
 //}
-
 package com.example.thecomfycoapp
 
 import android.content.Context
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.thecomfycoapp.Fragments.CartFragment
-import com.example.thecomfycoapp.R
 import com.example.thecomfycoapp.models.CartItemModel
 import com.example.thecomfycoapp.models.Product
 import com.example.thecomfycoapp.network.RetrofitClient
@@ -355,11 +354,13 @@ class UserProductDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_product_detail)
 
+        // Toolbar
         val topBar = findViewById<MaterialToolbar>(R.id.topBar)
         setSupportActionBar(topBar)
         topBar.setNavigationIcon(com.google.android.material.R.drawable.ic_arrow_back_black_24)
         topBar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
+        // Views
         imgProduct = findViewById(R.id.imgUserProduct)
         tvName = findViewById(R.id.tvUserProductName)
         tvPrice = findViewById(R.id.tvUserProductPrice)
@@ -374,6 +375,7 @@ class UserProductDetailActivity : AppCompatActivity() {
         btnPlus = findViewById(R.id.btnQtyPlus)
         btnAddToCart = findViewById(R.id.btnAddToCart)
 
+        // Product from Intent
         val productJson = intent.getStringExtra("product") ?: "{}"
         product = Gson().fromJson(productJson, Product::class.java)
 
@@ -384,11 +386,12 @@ class UserProductDetailActivity : AppCompatActivity() {
 
     private fun bindProduct(product: Product) {
         tvName.text = product.name
-        unitPrice = product.price ?: 0.0
+        unitPrice = product.price
         tvPrice.text = "R ${String.format("%.2f", unitPrice)}"
-        tvDescription.text = product.description ?: ""
+        tvDescription.text = product.description
         tvBottomPrice.text = "R ${String.format("%.2f", unitPrice * qty)}"
 
+        // Image
         val raw = product.images?.firstOrNull()
         val imageUrl = if (!raw.isNullOrBlank()) {
             if (raw.startsWith("http", ignoreCase = true)) raw
@@ -404,6 +407,7 @@ class UserProductDetailActivity : AppCompatActivity() {
             .error(R.drawable.logo)
             .into(imgProduct)
 
+        // Sizes
         chipGroupSizes.removeAllViews()
         val variants = product.variants ?: emptyList()
         if (variants.isNotEmpty()) {
@@ -453,9 +457,7 @@ class UserProductDetailActivity : AppCompatActivity() {
 
     private fun setupAddToCart() {
         btnAddToCart.setOnClickListener {
-            // 1) Save item to SharedPreferences
             addItemToCart()
-            // 2) Open CartFragment
             openCart()
         }
     }
@@ -469,7 +471,7 @@ class UserProductDetailActivity : AppCompatActivity() {
 
         val size = selectedSize()
 
-        val existing = cartList.find { it.product.name == product.name && it.size == size }
+        val existing = cartList.find { it.product._id == product._id && it.size == size }
         if (existing != null) {
             existing.qty += qty
         } else {
@@ -488,10 +490,9 @@ class UserProductDetailActivity : AppCompatActivity() {
     }
 
     private fun openCart() {
-        val cartFragment = CartFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(android.R.id.content, cartFragment)
-            .addToBackStack(null)
-            .commit()
+        // 🔥 Important: DO NOT attach CartFragment here.
+        // Just close this screen so user goes back to the main NavHost (with the real CartFragment).
+        Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show()
+        finish()
     }
 }

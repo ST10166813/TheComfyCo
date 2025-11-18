@@ -11,7 +11,7 @@
         android:id="@+id/tvCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/tenor_sans_reg"
         android:gravity="center"
         android:text="MY CART"
@@ -57,20 +57,20 @@
             android:textColor="?attr/colorOnSurface" />
     </LinearLayout>
 
-    <!-- RecyclerView: list of card items -->
+    <!-- RecyclerView: list of cart items -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCartItems"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
-        android:paddingBottom="8dp"
         android:overScrollMode="never"
+        android:paddingBottom="8dp"
         app:layout_constraintTop_toBottomOf="@id/headerRow"
         app:layout_constraintBottom_toTopOf="@id/checkoutBarCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Empty-state message (shown when no item) -->
+    <!-- Empty state -->
     <TextView
         android:id="@+id/tvMessgae"
         android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Checkout bar: total + button in proportion -->
+    <!-- Checkout bar -->
     <androidx.cardview.widget.CardView
         android:id="@+id/checkoutBarCard"
         android:layout_width="0dp"
@@ -112,7 +112,6 @@
             android:paddingBottom="12dp"
             android:gravity="center_vertical">
 
-            <!-- Total text -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -140,7 +139,6 @@
                     android:textColor="?attr/colorOnSurfaceVariant" />
             </LinearLayout>
 
-            <!-- Checkout button (pill style) -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCheckout"
                 style="@style/Widget.Material3.Button"
