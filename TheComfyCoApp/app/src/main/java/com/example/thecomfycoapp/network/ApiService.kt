@@ -52,6 +52,12 @@ interface ApiService {
     @POST("api/auth/reset-password")
     suspend fun resetPassword(@Body request: Map<String, String>): Response<ApiResponse>
 
-    @POST("api/admin/save-device-token")
-    suspend fun saveDeviceToken(@Body request: Map<String, String>): ApiResponse
+
+        @POST("/api/admin/register-token")
+        suspend fun saveDeviceToken(
+            @Body body: Map<String, String>,
+            @Header("Authorization") authHeader: String
+        )
+
+
 }

@@ -232,6 +232,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.addCallback
@@ -420,21 +421,35 @@ class HomeActivity : AppCompatActivity() {
             // Keep the Activity bottom nav's checked state in sync
             syncBottomNavSelection(destination.id)
         }
+
+
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val token = task.result
-                // Send to backend
-                lifecycleScope.launch {
-                    try {
-                        RetrofitClient.api.saveDeviceToken(mapOf("token" to token))
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
+                Log.d("FCMToken", token) // Step 2a: Check the log to confirm token is received
+                sendTokenToBackend(token)
             }
         }
 
     }
+
+    private fun sendTokenToBackend(token: String) {
+        val authToken = getSharedPreferences("auth", Context.MODE_PRIVATE)
+            .getString("token", null) ?: return
+
+        lifecycleScope.launch {
+            try {
+                RetrofitClient.api.saveDeviceToken(
+                    mapOf("token" to token),
+                    "Bearer $authToken" // include your JWT for auth
+                )
+                Log.d("FCMToken", "Token sent to backend successfully")
+            } catch (e: Exception) {
+                Log.e("FCMToken", "Error sending token to backend", e)
+            }
+        }
+    }
+
 
     private fun isAtTopLevel(destId: Int = navController.currentDestination?.id ?: -1): Boolean {
         return appBarConfig.topLevelDestinations.contains(destId)
