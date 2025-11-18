@@ -53,11 +53,11 @@ interface ApiService {
     suspend fun resetPassword(@Body request: Map<String, String>): Response<ApiResponse>
 
 
-        @POST("/api/admin/register-token")
-        suspend fun saveDeviceToken(
-            @Body body: Map<String, String>,
-            @Header("Authorization") authHeader: String
-        )
+    @POST("/register-token")
+    suspend fun saveDeviceToken(
+        @Body body: Map<String, String>,
+        @Header("Authorization") authHeader: String
+    ): Response<Any> // now isSuccessful, code(), message() work
 
 
 }
