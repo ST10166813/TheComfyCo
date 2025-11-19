@@ -110,7 +110,7 @@ The design and features are based on Part 1 research, planning, and design docum
 ## Innovative Features
 1. Wishlist Integration – Users can save products for later  
 2. Dark Mode – Reduced eye strain and user preference  
-3. Language Toggle (English/isiZulu) – Inclusivity and accessibility  
+3. Language Toggle (English/isiZulu/Afrikaans) – Inclusivity and accessibility  
 4. SSO Login (Google) – Simplifies onboarding  
 
 ---
@@ -237,7 +237,8 @@ Managed via Android `strings.xml` resource system.
 
 Example:
 - `values/strings.xml` – English  
-- `values-zu/strings.xml` – isiZulu  
+- `values-zu/strings.xml` – isiZulu
+- `values-af/strings.xml` – Afrikaans
 
 Language selector in Settings persists selection across app.
 
@@ -305,7 +306,7 @@ Shows:
 - Real-time notifications  
 - General navigation  
 
-YouTube (Unlisted): https://youtu.be/<your-demo-video-id>
+YouTube (Unlisted): [https://youtu.be/<your-demo-video-id>](https://youtu.be/y-WOfeP3oSQ)
 
 ---
 
