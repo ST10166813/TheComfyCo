@@ -16,6 +16,12 @@ class CartAdapter(
     private val onItemDeleted: (position: Int) -> Unit
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
+    // ---- ADD THIS ----
+    fun updateItems(newItems: List<CartItemModel>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgProduct: ImageView = view.findViewById(R.id.imgCartProduct)
         val tvName: TextView = view.findViewById(R.id.tvCartProductName)

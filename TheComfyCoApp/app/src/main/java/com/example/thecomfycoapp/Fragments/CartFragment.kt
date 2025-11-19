@@ -14,8 +14,8 @@ import com.example.thecomfycoapp.CartAdapter
 import com.example.thecomfycoapp.R
 import com.example.thecomfycoapp.UserProductListActivity
 import com.example.thecomfycoapp.models.CartItemModel
-import com.example.thecomfycoapp.models.Product
 import com.example.thecomfycoapp.models.CartItemRequest
+import com.example.thecomfycoapp.models.Product
 import com.example.thecomfycoapp.network.RetrofitClient
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
@@ -37,16 +37,17 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvCartItems = view.findViewById(R.id.rvCartItems)
-        tvEmpty = view.findViewById(R.id.tvMessgae)
-        tvGrandTotal = view.findViewById(R.id.tvCartGrandTotal)
-        btnCheckout = view.findViewById(R.id.btnCheckout)
-        bottomNav = view.findViewById(R.id.bottomNavigationView)
-        fabWishlist = view.findViewById(R.id.fabWishlist)
+        // 🔹 These IDs are EXACTLY from your XML
+        rvCartItems     = view.findViewById(R.id.rvCartItems)
+        tvEmpty         = view.findViewById(R.id.tvMessgae)
+        tvGrandTotal    = view.findViewById(R.id.tvCartGrandTotal)
+        btnCheckout     = view.findViewById(R.id.btnCheckout)
+        bottomNav       = view.findViewById(R.id.bottomNavigationView)
+        fabWishlist     = view.findViewById(R.id.fabWishlist)
 
         setupBottomNav()
-        loadCartFromApi()
         setupRecycler()
+        loadCartFromApi()
         updateUiState()
         setupCheckout()
         setupWishlist()
@@ -93,17 +94,21 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     // -------- Cart load from API --------
     private fun loadCartFromApi() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val token = getSavedToken()
-                if (token == null) {
+                if (token.isNullOrBlank()) {
                     Toast.makeText(requireContext(), "You are not logged in!", Toast.LENGTH_LONG).show()
                     return@launch
                 }
 
-                val response = RetrofitClient.api.getCart("Bearer $token")
+                // Ensure Retrofit uses this token
+                RetrofitClient.setToken(token)
+
+                val response = RetrofitClient.api.getCart()
                 if (response.isSuccessful) {
                     val cartResponse = response.body()
+
                     cartList = cartResponse?.items?.map {
                         CartItemModel(
                             product = Product(
@@ -113,20 +118,29 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                                 price = it.price,
                                 stock = 1,
                                 variants = null,
-                                images = listOf(it.image ?: "")
+                                images = listOfNotNull(it.image ?: "")
                             ),
                             qty = it.quantity,
                             size = null
                         )
                     }?.toMutableList() ?: mutableListOf()
-                    adapter?.notifyDataSetChanged()
+
+                    adapter?.updateItems(cartList)
                     updateUiState()
                 } else {
                     val errorMsg = response.errorBody()?.string() ?: "Unknown error"
-                    Toast.makeText(requireContext(), "Failed to load cart: ${response.code()} $errorMsg", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to load cart: ${response.code()} $errorMsg",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Failed to load cart: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to load cart: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -160,39 +174,65 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     // -------- API helpers --------
     private fun removeItemFromApi(productId: String?) {
-        productId?.let {
-            lifecycleScope.launch {
+        productId?.let { id ->
+            viewLifecycleOwner.lifecycleScope.launch {
                 val token = getSavedToken()
-                if (token == null) {
+                if (token.isNullOrBlank()) {
                     Toast.makeText(requireContext(), "You are not logged in!", Toast.LENGTH_LONG).show()
                     return@launch
                 }
 
-                val response = RetrofitClient.api.removeFromCart("Bearer $token", it)
+                RetrofitClient.setToken(token)
+
+                val response = RetrofitClient.api.removeFromCart(id)
                 if (response.isSuccessful) {
                     loadCartFromApi()
                 } else {
                     val errorMsg = response.errorBody()?.string() ?: "Unknown error"
-                    Toast.makeText(requireContext(), "Failed to remove item: ${response.code()} $errorMsg", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to remove item: ${response.code()} $errorMsg",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
     }
 
-    private fun updateItemQtyInApi(productId: String, qty: Int) {
-        lifecycleScope.launch {
+    private fun updateItemQtyInApi(productId: String, newQty: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
             val token = getSavedToken()
-            if (token == null) {
+            if (token.isNullOrBlank()) {
                 Toast.makeText(requireContext(), "You are not logged in!", Toast.LENGTH_LONG).show()
                 return@launch
             }
 
-            val response = RetrofitClient.api.addToCart("Bearer $token", CartItemRequest(productId, qty))
-            if (response.isSuccessful) {
-                loadCartFromApi()
-            } else {
-                val errorMsg = response.errorBody()?.string() ?: "Unknown error"
-                Toast.makeText(requireContext(), "Failed to update item: ${response.code()} $errorMsg", Toast.LENGTH_LONG).show()
+            RetrofitClient.setToken(token)
+
+            try {
+                // Option 1: just call addToCart with the new quantity (backend increments)
+                val addReq = CartItemRequest(
+                    productId = productId,
+                    quantity = newQty
+                )
+
+                val addResponse = RetrofitClient.api.addToCart(addReq)
+                if (addResponse.isSuccessful) {
+                    loadCartFromApi()
+                } else {
+                    val err = addResponse.errorBody()?.string() ?: "Unknown error"
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to update item: ${addResponse.code()} $err",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to update item: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

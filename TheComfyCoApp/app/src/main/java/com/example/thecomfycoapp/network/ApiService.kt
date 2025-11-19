@@ -1,7 +1,7 @@
 package com.example.thecomfycoapp.network
 
 import com.example.thecomfycoapp.Fragments.CartResponse
-import com.example.thecomfycoapp.models.*   // ✅ keep all models here
+import com.example.thecomfycoapp.models.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -59,33 +59,26 @@ interface ApiService {
     @GET("api/admin/orders")
     suspend fun getOrders(): Response<List<OrderResponse>>
 
-    // -------- CART --------
+    // -------- CART (no @Header) --------
     @POST("api/cart/add")
     suspend fun addToCart(
-        @Header("Authorization") token: String,
         @Body item: CartItemRequest
     ): Response<CartResponse>
 
     @GET("api/cart")
-    suspend fun getCart(
-        @Header("Authorization") token: String
-    ): Response<CartResponse>
+    suspend fun getCart(): Response<CartResponse>
 
     @DELETE("api/cart/remove/{productId}")
     suspend fun removeFromCart(
-        @Header("Authorization") token: String,
         @Path("productId") productId: String
     ): Response<CartResponse>
 
     @DELETE("api/cart/clear")
-    suspend fun clearCart(
-        @Header("Authorization") token: String
-    ): Response<Map<String, String>>
+    suspend fun clearCart(): Response<Map<String, String>>
 
-    // -------- PAYMENT --------
+    // -------- PAYMENT (no @Header) --------
     @POST("api/payment/pay")
     suspend fun pay(
-        @Header("Authorization") token: String,
         @Body payment: PaymentRequest
     ): Response<PaymentResponse>
 }

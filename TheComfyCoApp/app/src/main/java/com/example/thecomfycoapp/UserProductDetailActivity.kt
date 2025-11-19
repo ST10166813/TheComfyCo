@@ -137,19 +137,18 @@ class UserProductDetailActivity : AppCompatActivity() {
         return chip?.text?.toString() ?: ""
     }
 
-    private fun setupAddToCart() {
-        btnAddToCart.setOnClickListener {
-            addItemToCart()
-        }
-    }
-
-    private fun getSavedToken(): String? {
-        val prefs = getSharedPreferences("auth", MODE_PRIVATE)
-        return prefs.getString("token", null)
-    }
-
     private fun addItemToCart() {
         val size = selectedSize()
+
+        val prefs = getSharedPreferences("auth", MODE_PRIVATE)
+        val savedToken = prefs.getString("token", null)
+        if (savedToken.isNullOrBlank()) {
+            Toast.makeText(this, "You are not logged in!", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        // Make sure Retrofit has the token
+        RetrofitClient.setToken(savedToken)
 
         lifecycleScope.launch {
             try {
@@ -157,16 +156,15 @@ class UserProductDetailActivity : AppCompatActivity() {
                     productId = product._id ?: "",
                     quantity = qty
                 )
-                val token = getSavedToken()
-                if (token == null) {
-                    Toast.makeText(this@UserProductDetailActivity, "You are not logged in!", Toast.LENGTH_LONG).show()
-                    return@launch
-                }
 
-                val response = RetrofitClient.api.addToCart("Bearer $token", request)
+                val response = RetrofitClient.api.addToCart(request)
 
                 if (response.isSuccessful) {
-                    Toast.makeText(this@UserProductDetailActivity, "Added to cart", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@UserProductDetailActivity,
+                        "Added to cart",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     finish()
                 } else {
                     val errorMsg = response.errorBody()?.string() ?: "Unknown error"
@@ -178,8 +176,18 @@ class UserProductDetailActivity : AppCompatActivity() {
                 }
 
             } catch (e: Exception) {
-                Toast.makeText(this@UserProductDetailActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@UserProductDetailActivity,
+                    "Error: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+        }
+    }
+
+    private fun setupAddToCart() {
+        btnAddToCart.setOnClickListener {
+            addItemToCart()
         }
     }
 }

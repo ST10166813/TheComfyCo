@@ -4,17 +4,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.thecomfycoapp.R
-import com.example.thecomfycoapp.network.RetrofitClient.api
 import com.example.thecomfycoapp.models.PaymentRequest
 import com.example.thecomfycoapp.network.RetrofitClient
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
@@ -39,7 +38,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         etCvv = view.findViewById(R.id.etCvv)
         btnPay = view.findViewById(R.id.btnPay)
 
-        // ✅ Read totals from bundle passed by CartFragment
         totalItems = arguments?.getInt("total_items") ?: 0
         grandTotal = arguments?.getDouble("grand_total") ?: 0.0
         tvOrderSummary.text = "$totalItems items • Total: R ${String.format("%.2f", grandTotal)}"
@@ -106,7 +104,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         val expiry = etExpiry.text.toString().trim()
         val cvv = etCvv.text.toString().trim()
 
-        // ✅ Validate all fields for UX
         if (name.isEmpty()) {
             Toast.makeText(requireContext(), "Enter card holder name", Toast.LENGTH_SHORT).show()
             return
@@ -129,32 +126,40 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             return
         }
 
-        // ✅ Only send what backend expects
+        // Make sure Retrofit has token
+        RetrofitClient.setToken(token)
+
         val paymentData = PaymentRequest(
             amount = grandTotal,
             customerName = name,
             maskedCard = "****${cardNumber.takeLast(4)}"
         )
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val response = RetrofitClient.api.pay("Bearer $token", paymentData)
+                val response = RetrofitClient.api.pay(paymentData)
                 if (response.isSuccessful) {
                     val body = response.body()
-                    if (body != null && body.message?.contains("successful") == true) {
+                    if (body != null && body.message?.contains("successful", ignoreCase = true) == true) {
                         Toast.makeText(requireContext(), "Payment Successful!", Toast.LENGTH_LONG).show()
                         findNavController().navigate(R.id.id_order_confirmation_fragment)
                     } else {
                         Toast.makeText(requireContext(), "Order failed: ${body?.message}", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Order failed: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Order failed: ${response.code()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Network error: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Network error: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
-
     }
-
 }
