@@ -60,7 +60,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // ✅ Ensure Retrofit uses whatever token the user logged in with
+        // Ensure Retrofit uses whatever token the user logged in with
         RetrofitClient.init(applicationContext)
 
         // ----- Views -----
@@ -102,18 +102,15 @@ class HomeActivity : AppCompatActivity() {
                 if (isAtTopLevel()) arrow.progress = 1f
             }
         })
-
-        // ----- Bottom nav -----
+// ----- Bottom nav -----
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_home -> {
                     safeNavigate(homeDestId); true
                 }
-
                 R.id.menu_cart -> {
                     safeNavigate(cartDestId); true
                 }
-
                 else -> false
             }
         }
@@ -121,8 +118,11 @@ class HomeActivity : AppCompatActivity() {
         bottomNav.menu.findItem(R.id.menu_home)?.isChecked = true
 
         fabBtn.setOnClickListener {
-            // Optional: wishlist / quick action
+            // Middle heart button → Wishlist
+            val intent = Intent(this, WishlistActivity::class.java)
+            startActivity(intent)
         }
+
 
         // ----- Drawer menu items -----
         profileItem = findViewById(R.id.drawerProfile)

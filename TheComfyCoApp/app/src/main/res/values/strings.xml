@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">The Comfy Co</string>
+    <string name="app_name"> </string>
 
     <string name="default_web_client_id">
         35777820279-i379gs92h4bcqtr8prq306t595ik37u1.apps.googleusercontent.com
@@ -75,6 +75,11 @@
     <string name="cart_continue_shopping">Continue shopping</string>
 
     <string name="product_stock_label">Stock: %1$d units</string>
+
+    <string name="add_to_wishlist">Add to wishlist</string>
+    <string name="title_my_wishlist">MY WISHLIST</string>
+    <string name="title_wishlist_detail">Wishlist item</string>
+    <string name="btn_remove_from_wishlist">Remove from wishlist</string>
 
 
 </resources>

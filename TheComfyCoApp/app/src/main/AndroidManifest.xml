@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheComfyCoApp">
         <activity
+            android:name=".WishlistActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ManageOrdersActivity"
             android:exported="false" />
         <activity

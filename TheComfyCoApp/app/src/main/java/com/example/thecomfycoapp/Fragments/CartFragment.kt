@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.thecomfycoapp.CartAdapter
 import com.example.thecomfycoapp.R
 import com.example.thecomfycoapp.UserProductListActivity
+import com.example.thecomfycoapp.WishlistActivity
 import com.example.thecomfycoapp.models.CartItemModel
 import com.example.thecomfycoapp.models.CartItemRequest
 import com.example.thecomfycoapp.models.Product
@@ -60,6 +61,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     }
 
     // -------- Bottom nav --------
+    // -------- Bottom nav --------
     private fun setupBottomNav() {
         bottomNav.menu.clear()
         bottomNav.inflateMenu(R.menu.bottom_menu_cart)
@@ -67,10 +69,12 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.homeFragment -> {
+                    // Home → navigate back to home fragment
                     findNavController().navigate(R.id.id_home_fragment)
                     true
                 }
                 R.id.cartFragment -> {
+                    // "Products" tab → open UserProductListActivity
                     val intent = Intent(requireContext(), UserProductListActivity::class.java)
                     startActivity(intent)
                     true
@@ -85,12 +89,14 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     findNavController().navigate(R.id.id_home_fragment)
                 }
                 R.id.cartFragment -> {
+                    // Reselect "Products" → again open product list
                     val intent = Intent(requireContext(), UserProductListActivity::class.java)
                     startActivity(intent)
                 }
             }
         }
     }
+
 
     // -------- Cart load from API --------
     private fun loadCartFromApi() {
@@ -277,7 +283,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     // -------- Wishlist --------
     private fun setupWishlist() {
         fabWishlist.setOnClickListener {
-            Toast.makeText(requireContext(), "Wishlist coming soon", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), WishlistActivity::class.java)
+            startActivity(intent)
         }
     }
+
 }
