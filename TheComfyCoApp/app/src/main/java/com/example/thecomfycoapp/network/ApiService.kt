@@ -1,78 +1,7 @@
-//package com.example.thecomfycoapp.network
-//
-//import com.example.thecomfycoapp.models.*
-//import okhttp3.MultipartBody
-//import okhttp3.RequestBody
-//import retrofit2.Response
-//import retrofit2.http.*
-//
-//interface ApiService {
-//
-//    @POST("api/auth/register")
-//    suspend fun register(@Body request: RegisterRequest): RegisterResponse
-//
-//    @POST("api/auth/login")
-//    suspend fun login(@Body request: LoginRequest): LoginResponse
-//
-//    @POST("api/auth/logout")
-//    suspend fun logout(): Map<String, String>
-//
-//    @POST("api/auth/login/google")
-//    suspend fun loginWithGoogle(@Body request: Map<String, String>): LoginResponse
-//
-//    @GET("api/products")
-//    suspend fun getProducts(): List<Product>
-//
-//    @GET("api/products/{id}")
-//    suspend fun getProduct(@Path("id") id: String): Product
-//
-//    @Multipart
-//    @POST("api/products") // change to "api/admin/products" if that's your protected path
-//    suspend fun createProduct(
-//        @Part("name") name: RequestBody,
-//        @Part("description") description: RequestBody,
-//        @Part("price") price: RequestBody,
-//        @Part("stock") stock: RequestBody,
-//        @Part("variants") variants: RequestBody,
-//        @Part image: MultipartBody.Part?
-//    ): Response<Product>
-//
-//    @PUT("api/products/{id}")
-//    suspend fun updateProduct(
-//        @Path("id") id: String,
-//        @Body product: Product
-//    ): Response<Product>
-//
-//    @DELETE("api/products/{id}")
-//    suspend fun deleteProduct(@Path("id") id: String): Response<Map<String, String>>
-//
-//    @POST("api/auth/forgot-password")
-//    suspend fun forgotPassword(@Body request: Map<String, String>): Response<ApiResponse>
-//
-//    @POST("api/auth/reset-password")
-//    suspend fun resetPassword(@Body request: Map<String, String>): Response<ApiResponse>
-//
-//
-//    @POST("/register-token")
-//    suspend fun saveDeviceToken(
-//        @Body body: Map<String, String>,
-//        @Header("Authorization") authHeader: String
-//    ): Response<Any> // now isSuccessful, code(), message() work
-//
-//    // User: create order at checkout
-//    @POST("api/orders")
-//    suspend fun createOrder(
-//        @Body order: OrderRequest
-//    ): Response<OrderResponse>
-//
-//    // Admin: fetch all orders for "Manage Orders"
-//    @GET("api/admin/orders")
-//    suspend fun getOrders(): Response<List<OrderResponse>>
-//}
-
 package com.example.thecomfycoapp.network
 
-import com.example.thecomfycoapp.models.*
+import com.example.thecomfycoapp.Fragments.CartResponse
+import com.example.thecomfycoapp.models.*   // ✅ keep all models here
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -124,30 +53,39 @@ interface ApiService {
     @POST("api/auth/reset-password")
     suspend fun resetPassword(@Body request: Map<String, String>): Response<ApiResponse>
 
-    // ------------- DEVICE TOKEN -------------
-    // Interceptor already adds Authorization, so NO manual @Header here
     @POST("register-token")
-    suspend fun saveDeviceToken(
-        @Body body: Map<String, String>
-    ): Response<Any>
+    suspend fun saveDeviceToken(@Body body: Map<String, String>): Response<Any>
 
-    // ------------- ORDERS -------------
-
-    // User: create order at checkout
-    @POST("api/orders")
-    suspend fun createOrder(
-        @Body order: OrderRequest
-    ): Response<OrderResponse>
-
-    // Admin: fetch all orders for "Manage Orders"
-    // Again: interceptor adds Authorization for you
     @GET("api/admin/orders")
     suspend fun getOrders(): Response<List<OrderResponse>>
 
-    @POST("orders")
-    suspend fun placeOrder(
-        @Body order: OrderRequest
-    ): Response<OrderResponse>
+    // -------- CART --------
+    @POST("api/cart/add")
+    suspend fun addToCart(
+        @Header("Authorization") token: String,
+        @Body item: CartItemRequest
+    ): Response<CartResponse>
 
+    @GET("api/cart")
+    suspend fun getCart(
+        @Header("Authorization") token: String
+    ): Response<CartResponse>
 
+    @DELETE("api/cart/remove/{productId}")
+    suspend fun removeFromCart(
+        @Header("Authorization") token: String,
+        @Path("productId") productId: String
+    ): Response<CartResponse>
+
+    @DELETE("api/cart/clear")
+    suspend fun clearCart(
+        @Header("Authorization") token: String
+    ): Response<Map<String, String>>
+
+    // -------- PAYMENT --------
+    @POST("api/payment/pay")
+    suspend fun pay(
+        @Header("Authorization") token: String,
+        @Body payment: PaymentRequest
+    ): Response<PaymentResponse>
 }

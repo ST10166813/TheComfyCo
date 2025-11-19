@@ -9,13 +9,6 @@ data class OrderItemRequest(
     val lineTotal: Double
 )
 
-data class OrderRequest(
-    val items: List<OrderItemRequest>,
-    val totalItems: Int,
-    val grandTotal: Double,
-    val customerName: String,
-    val maskedCard: String?
-)
 
 // What the backend returns for admin / confirmation list
 data class OrderResponse(

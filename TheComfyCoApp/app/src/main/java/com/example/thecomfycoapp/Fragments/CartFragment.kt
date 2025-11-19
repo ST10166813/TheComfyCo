@@ -1,348 +1,12 @@
-//package com.example.thecomfycoapp.Fragments
-//
-//import android.content.Context
-//import android.content.Intent
-//import android.os.Bundle
-//import android.view.View
-//import android.widget.TextView
-//import android.widget.Toast
-//import androidx.fragment.app.Fragment
-//import androidx.navigation.fragment.findNavController
-//import androidx.recyclerview.widget.LinearLayoutManager
-//import androidx.recyclerview.widget.RecyclerView
-//import com.example.thecomfycoapp.CartAdapter
-//import com.example.thecomfycoapp.R
-//import com.example.thecomfycoapp.UserProductListActivity
-//import com.example.thecomfycoapp.models.CartItemModel
-//import com.google.android.material.bottomnavigation.BottomNavigationView
-//import com.google.android.material.button.MaterialButton
-//import com.google.android.material.floatingactionbutton.FloatingActionButton
-//import com.google.gson.Gson
-//import com.google.gson.reflect.TypeToken
-//
-//class CartFragment : Fragment(R.layout.fragment_cart) {
-//
-//    private lateinit var rvCartItems: RecyclerView
-//    private lateinit var tvEmpty: TextView
-//    private lateinit var tvGrandTotal: TextView
-//    private lateinit var btnCheckout: MaterialButton
-//    private lateinit var bottomNav: BottomNavigationView
-//    private lateinit var fabWishlist: FloatingActionButton
-//
-//    private val PREFS_NAME = "cart_prefs"
-//    private val KEY_CART_ITEMS = "cart_items"
-//
-//    private var cartList = mutableListOf<CartItemModel>()
-//    private var adapter: CartAdapter? = null
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        // ----- Bind views -----
-//        rvCartItems = view.findViewById(R.id.rvCartItems)
-//        tvEmpty = view.findViewById(R.id.tvMessgae)
-//        tvGrandTotal = view.findViewById(R.id.tvCartGrandTotal)
-//        btnCheckout = view.findViewById(R.id.btnCheckout)
-//        bottomNav = view.findViewById(R.id.bottomNavigationView)
-//        fabWishlist = view.findViewById(R.id.fabWishlist)
-//
-//        setupBottomNav()
-//        loadCart()
-//        setupRecycler()
-//        updateUiState()
-//        setupCheckout()
-//        setupWishlist()
-//    }
-//
-//    // ---------------- Bottom nav: Home + View Products ----------------
-//
-//    private fun setupBottomNav() {
-//        // Use the cart-specific menu
-//        bottomNav.menu.clear()
-//        bottomNav.inflateMenu(R.menu.bottom_menu_cart)
-//
-//        bottomNav.setOnItemSelectedListener { item ->
-//            when (item.itemId) {
-//                // Left icon → HomeFragment
-//                R.id.homeFragment -> {
-//                    findNavController().navigate(R.id.id_home_fragment)
-//                    true
-//                }
-//                // Right icon (was "settings") → open UserProductListActivity
-//                R.id.cartFragment -> {
-//                    val intent = Intent(requireContext(), UserProductListActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
-//
-//        bottomNav.setOnItemReselectedListener { item ->
-//            when (item.itemId) {
-//                R.id.homeFragment -> {
-//                    findNavController().navigate(R.id.id_home_fragment)
-//                }
-//                R.id.cartFragment -> {
-//                    val intent = Intent(requireContext(), UserProductListActivity::class.java)
-//                    startActivity(intent)
-//                }
-//            }
-//        }
-//    }
-//
-//    // ---------------- Cart data ----------------
-//
-//    private fun loadCart() {
-//        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-//        val json = prefs.getString(KEY_CART_ITEMS, "[]") ?: "[]"
-//        val type = object : TypeToken<MutableList<CartItemModel>>() {}.type
-//        cartList = Gson().fromJson(json, type)
-//    }
-//
-//    private fun saveCart() {
-//        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-//        prefs.edit()
-//            .putString(KEY_CART_ITEMS, Gson().toJson(cartList))
-//            .apply()
-//    }
-//
-//    // ---------------- RecyclerView ----------------
-//
-//    private fun setupRecycler() {
-//        rvCartItems.layoutManager = LinearLayoutManager(requireContext())
-//
-//        adapter = CartAdapter(
-//            items = cartList,
-//            onQtyChanged = { position, newQty ->
-//                if (position in cartList.indices) {
-//                    val item = cartList[position]
-//                    if (newQty <= 0) {
-//                        cartList.removeAt(position)
-//                    } else {
-//                        item.qty = newQty
-//                    }
-//                    saveCart()
-//                    adapter?.notifyDataSetChanged()
-//                    updateUiState()
-//                }
-//            },
-//            onItemDeleted = { position ->
-//                if (position in cartList.indices) {
-//                    cartList.removeAt(position)
-//                    saveCart()
-//                    adapter?.notifyDataSetChanged()
-//                    updateUiState()
-//                }
-//            }
-//        )
-//
-//        rvCartItems.adapter = adapter
-//    }
-//
-//    // ---------------- UI state (empty vs items + total) ----------------
-//
-//    private fun updateUiState() {
-//        if (cartList.isEmpty()) {
-//            tvEmpty.visibility = View.VISIBLE
-//            rvCartItems.visibility = View.GONE
-//            btnCheckout.isEnabled = false
-//            tvGrandTotal.text = "Total: R 0.00"
-//        } else {
-//            tvEmpty.visibility = View.GONE
-//            rvCartItems.visibility = View.VISIBLE
-//            btnCheckout.isEnabled = true
-//
-//            val grandTotal = cartList.sumOf { (it.product.price ?: 0.0) * it.qty }
-//            tvGrandTotal.text = "Total: R ${String.format("%.2f", grandTotal)}"
-//        }
-//    }
-//
-//    // ---------------- Buttons ----------------
-//
-//    private fun setupCheckout() {
-//        btnCheckout.setOnClickListener {
-//            // Navigate to the CheckoutFragment
-//            findNavController().navigate(R.id.id_checkout_fragment)
-//        }
-//    }
-//
-//    private fun setupWishlist() {
-//        fabWishlist.setOnClickListener {
-//            Toast.makeText(requireContext(), "Wishlist coming soon", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//}
-//
-//package com.example.thecomfycoapp.Fragments
-//
-//import android.content.Context
-//import android.content.Intent
-//import android.os.Bundle
-//import android.view.View
-//import android.widget.TextView
-//import android.widget.Toast
-//import androidx.fragment.app.Fragment
-//import androidx.navigation.fragment.findNavController
-//import androidx.recyclerview.widget.LinearLayoutManager
-//import androidx.recyclerview.widget.RecyclerView
-//import com.example.thecomfycoapp.CartAdapter
-//import com.example.thecomfycoapp.R
-//import com.example.thecomfycoapp.UserProductListActivity
-//import com.example.thecomfycoapp.models.CartItemModel
-//import com.google.android.material.bottomnavigation.BottomNavigationView
-//import com.google.android.material.button.MaterialButton
-//import com.google.android.material.floatingactionbutton.FloatingActionButton
-//import com.google.gson.Gson
-//import com.google.gson.reflect.TypeToken
-//
-//class CartFragment : Fragment(R.layout.fragment_cart) {
-//
-//    private lateinit var rvCartItems: RecyclerView
-//    private lateinit var tvEmpty: TextView
-//    private lateinit var tvGrandTotal: TextView
-//    private lateinit var btnCheckout: MaterialButton
-//    private lateinit var bottomNav: BottomNavigationView
-//    private lateinit var fabWishlist: FloatingActionButton
-//
-//    private val PREFS_NAME = "cart_prefs"
-//    private val KEY_CART_ITEMS = "cart_items"
-//
-//    private var cartList = mutableListOf<CartItemModel>()
-//    private var adapter: CartAdapter? = null
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        rvCartItems = view.findViewById(R.id.rvCartItems)
-//        tvEmpty = view.findViewById(R.id.tvMessgae)
-//        tvGrandTotal = view.findViewById(R.id.tvCartGrandTotal)
-//        btnCheckout = view.findViewById(R.id.btnCheckout)
-//        bottomNav = view.findViewById(R.id.bottomNavigationView)
-//        fabWishlist = view.findViewById(R.id.fabWishlist)
-//
-//        setupBottomNav()
-//        loadCart()
-//        setupRecycler()
-//        updateUiState()
-//        setupCheckout()
-//        setupWishlist()
-//    }
-//
-//    private fun setupBottomNav() {
-//        bottomNav.menu.clear()
-//        bottomNav.inflateMenu(R.menu.bottom_menu_cart)
-//
-//        bottomNav.setOnItemSelectedListener { item ->
-//            when (item.itemId) {
-//                R.id.homeFragment -> {
-//                    findNavController().navigate(R.id.id_home_fragment)
-//                    true
-//                }
-//                R.id.cartFragment -> {
-//                    val intent = Intent(requireContext(), UserProductListActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
-//
-//        bottomNav.setOnItemReselectedListener { item ->
-//            when (item.itemId) {
-//                R.id.homeFragment -> {
-//                    findNavController().navigate(R.id.id_home_fragment)
-//                }
-//                R.id.cartFragment -> {
-//                    val intent = Intent(requireContext(), UserProductListActivity::class.java)
-//                    startActivity(intent)
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun loadCart() {
-//        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-//        val json = prefs.getString(KEY_CART_ITEMS, "[]") ?: "[]"
-//        val type = object : TypeToken<MutableList<CartItemModel>>() {}.type
-//        cartList = Gson().fromJson(json, type)
-//    }
-//
-//    private fun saveCart() {
-//        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-//        prefs.edit()
-//            .putString(KEY_CART_ITEMS, Gson().toJson(cartList))
-//            .apply()
-//    }
-//
-//    private fun setupRecycler() {
-//        rvCartItems.layoutManager = LinearLayoutManager(requireContext())
-//
-//        adapter = CartAdapter(
-//            items = cartList,
-//            onQtyChanged = { position, newQty ->
-//                if (position in cartList.indices) {
-//                    val item = cartList[position]
-//                    if (newQty <= 0) {
-//                        cartList.removeAt(position)
-//                    } else {
-//                        item.qty = newQty
-//                    }
-//                    saveCart()
-//                    adapter?.notifyDataSetChanged()
-//                    updateUiState()
-//                }
-//            },
-//            onItemDeleted = { position ->
-//                if (position in cartList.indices) {
-//                    cartList.removeAt(position)
-//                    saveCart()
-//                    adapter?.notifyDataSetChanged()
-//                    updateUiState()
-//                }
-//            }
-//        )
-//
-//        rvCartItems.adapter = adapter
-//    }
-//
-//    private fun updateUiState() {
-//        if (cartList.isEmpty()) {
-//            tvEmpty.visibility = View.VISIBLE
-//            rvCartItems.visibility = View.GONE
-//            btnCheckout.isEnabled = false
-//            tvGrandTotal.text = "Total: R 0.00"
-//        } else {
-//            tvEmpty.visibility = View.GONE
-//            rvCartItems.visibility = View.VISIBLE
-//            btnCheckout.isEnabled = true
-//
-//            val grandTotal = cartList.sumOf { it.product.price * it.qty }
-//            tvGrandTotal.text = "Total: R ${String.format("%.2f", grandTotal)}"
-//        }
-//    }
-//
-//    private fun setupCheckout() {
-//        btnCheckout.setOnClickListener {
-//            findNavController().navigate(R.id.id_checkout_fragment)
-//        }
-//    }
-//
-//    private fun setupWishlist() {
-//        fabWishlist.setOnClickListener {
-//            Toast.makeText(requireContext(), "Wishlist coming soon", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//}
 package com.example.thecomfycoapp.Fragments
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -350,11 +14,13 @@ import com.example.thecomfycoapp.CartAdapter
 import com.example.thecomfycoapp.R
 import com.example.thecomfycoapp.UserProductListActivity
 import com.example.thecomfycoapp.models.CartItemModel
+import com.example.thecomfycoapp.models.Product
+import com.example.thecomfycoapp.models.CartItemRequest
+import com.example.thecomfycoapp.network.RetrofitClient
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.launch
 
 class CartFragment : Fragment(R.layout.fragment_cart) {
 
@@ -364,9 +30,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private lateinit var btnCheckout: MaterialButton
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var fabWishlist: FloatingActionButton
-
-    private val PREFS_NAME = "cart_prefs"
-    private val KEY_CART_ITEMS = "cart_items"
 
     private var cartList = mutableListOf<CartItemModel>()
     private var adapter: CartAdapter? = null
@@ -382,11 +45,17 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         fabWishlist = view.findViewById(R.id.fabWishlist)
 
         setupBottomNav()
-        loadCart()
+        loadCartFromApi()
         setupRecycler()
         updateUiState()
         setupCheckout()
         setupWishlist()
+    }
+
+    // -------- Helper: get saved token --------
+    private fun getSavedToken(): String? {
+        val prefs = requireContext().getSharedPreferences("auth", android.content.Context.MODE_PRIVATE)
+        return prefs.getString("token", null)
     }
 
     // -------- Bottom nav --------
@@ -422,19 +91,44 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         }
     }
 
-    // -------- Cart load/save --------
-    private fun loadCart() {
-        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val json = prefs.getString(KEY_CART_ITEMS, "[]") ?: "[]"
-        val type = object : TypeToken<MutableList<CartItemModel>>() {}.type
-        cartList = Gson().fromJson(json, type)
-    }
+    // -------- Cart load from API --------
+    private fun loadCartFromApi() {
+        lifecycleScope.launch {
+            try {
+                val token = getSavedToken()
+                if (token == null) {
+                    Toast.makeText(requireContext(), "You are not logged in!", Toast.LENGTH_LONG).show()
+                    return@launch
+                }
 
-    private fun saveCart() {
-        val prefs = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        prefs.edit()
-            .putString(KEY_CART_ITEMS, Gson().toJson(cartList))
-            .apply()
+                val response = RetrofitClient.api.getCart("Bearer $token")
+                if (response.isSuccessful) {
+                    val cartResponse = response.body()
+                    cartList = cartResponse?.items?.map {
+                        CartItemModel(
+                            product = Product(
+                                _id = it.productId,
+                                name = it.name ?: "",
+                                description = "",
+                                price = it.price,
+                                stock = 1,
+                                variants = null,
+                                images = listOf(it.image ?: "")
+                            ),
+                            qty = it.quantity,
+                            size = null
+                        )
+                    }?.toMutableList() ?: mutableListOf()
+                    adapter?.notifyDataSetChanged()
+                    updateUiState()
+                } else {
+                    val errorMsg = response.errorBody()?.string() ?: "Unknown error"
+                    Toast.makeText(requireContext(), "Failed to load cart: ${response.code()} $errorMsg", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Failed to load cart: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     // -------- RecyclerView --------
@@ -447,26 +141,60 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 if (position in cartList.indices) {
                     val item = cartList[position]
                     if (newQty <= 0) {
-                        cartList.removeAt(position)
+                        removeItemFromApi(item.product._id ?: "")
                     } else {
-                        item.qty = newQty
+                        updateItemQtyInApi(item.product._id ?: "", newQty)
                     }
-                    saveCart()
-                    adapter?.notifyDataSetChanged()
-                    updateUiState()
                 }
             },
             onItemDeleted = { position ->
                 if (position in cartList.indices) {
-                    cartList.removeAt(position)
-                    saveCart()
-                    adapter?.notifyDataSetChanged()
-                    updateUiState()
+                    val item = cartList[position]
+                    removeItemFromApi(item.product._id)
                 }
             }
         )
 
         rvCartItems.adapter = adapter
+    }
+
+    // -------- API helpers --------
+    private fun removeItemFromApi(productId: String?) {
+        productId?.let {
+            lifecycleScope.launch {
+                val token = getSavedToken()
+                if (token == null) {
+                    Toast.makeText(requireContext(), "You are not logged in!", Toast.LENGTH_LONG).show()
+                    return@launch
+                }
+
+                val response = RetrofitClient.api.removeFromCart("Bearer $token", it)
+                if (response.isSuccessful) {
+                    loadCartFromApi()
+                } else {
+                    val errorMsg = response.errorBody()?.string() ?: "Unknown error"
+                    Toast.makeText(requireContext(), "Failed to remove item: ${response.code()} $errorMsg", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun updateItemQtyInApi(productId: String, qty: Int) {
+        lifecycleScope.launch {
+            val token = getSavedToken()
+            if (token == null) {
+                Toast.makeText(requireContext(), "You are not logged in!", Toast.LENGTH_LONG).show()
+                return@launch
+            }
+
+            val response = RetrofitClient.api.addToCart("Bearer $token", CartItemRequest(productId, qty))
+            if (response.isSuccessful) {
+                loadCartFromApi()
+            } else {
+                val errorMsg = response.errorBody()?.string() ?: "Unknown error"
+                Toast.makeText(requireContext(), "Failed to update item: ${response.code()} $errorMsg", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     // -------- UI state --------
@@ -494,7 +222,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 return@setOnClickListener
             }
 
-            // 👉 Pass only what the checkout UI needs
             val totalItems = cartList.sumOf { it.qty }
             val grandTotal = cartList.sumOf { it.product.price * it.qty }
 

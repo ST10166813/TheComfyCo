@@ -76,13 +76,17 @@ object RetrofitClient {
 
     private val authInterceptor = Interceptor { chain ->
         val requestBuilder = chain.request().newBuilder()
+            .addHeader("Accept", "application/json") // ✅ tell server to respond with JSON
+
         token?.let {
             if (it.isNotBlank()) {
                 requestBuilder.addHeader("Authorization", "Bearer $it")
             }
         }
+
         chain.proceed(requestBuilder.build())
     }
+
 
     private fun buildApi() {
         val client = OkHttpClient.Builder()

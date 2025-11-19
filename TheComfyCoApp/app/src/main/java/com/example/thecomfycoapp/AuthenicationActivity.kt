@@ -40,7 +40,6 @@ class AuthenicationActivity : AppCompatActivity() {
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var executor: Executor
 
-
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val data = result.data
@@ -64,16 +63,12 @@ class AuthenicationActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
-        // -----------------------------
-        // FORGOT PASSWORD CLICK
-        // -----------------------------
+        // Forgot password
         forgotBtn.setOnClickListener {
             startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
 
-        // -----------------------------
-        // EMAIL/PASSWORD LOGIN
-        // -----------------------------
+        // Email/password login
         loginBtn.setOnClickListener {
             val email = emailEt.text?.toString()?.trim().orEmpty()
             val password = passwordEt.text?.toString()?.trim().orEmpty()
@@ -98,9 +93,11 @@ class AuthenicationActivity : AppCompatActivity() {
                     val role = response?.userDetails?.role
                     val userName = response?.userDetails?.name
 
-                    saveToken(token)
+                    if (token != null) {
+                        saveToken(token)
+                        RetrofitClient.setToken(token)
+                    }
                     saveRole(role)
-                    RetrofitClient.setToken(token)
 
                     enableBiometricIfPossible()
 
@@ -117,9 +114,7 @@ class AuthenicationActivity : AppCompatActivity() {
             }
         }
 
-        // -----------------------------
-        // GOOGLE SIGN-IN
-        // -----------------------------
+        // Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
@@ -127,21 +122,16 @@ class AuthenicationActivity : AppCompatActivity() {
 
         googleSignInBtn.setOnClickListener { signInWithGoogle() }
 
-        // -----------------------------
-        // BIOMETRIC AUTH BUTTON
-        // -----------------------------
+        // Biometric
         setupBiometricAuth()
         enableBiometricIfPossible()
 
         biometricBtn.setOnClickListener {
-            Log.d("BIO_CLICK", "Biometric button clicked")
             biometricPrompt.authenticate(promptInfo)
         }
     }
 
-    // -----------------------------
-    // SETUP BIOMETRIC PROMPT
-    // -----------------------------
+    // Biometric setup
     private fun setupBiometricAuth() {
         executor = ContextCompat.getMainExecutor(this)
 
@@ -152,16 +142,6 @@ class AuthenicationActivity : AppCompatActivity() {
                     toast("Biometric Verified!")
                     startActivity(Intent(this@AuthenicationActivity, HomeActivity::class.java))
                     finish()
-                }
-
-                override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
-                    Log.d("BIO_AUTH", "FAILED")
-                }
-
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    super.onAuthenticationError(errorCode, errString)
-                    Log.d("BIO_AUTH", "ERROR: $errString")
                 }
             }
         )
@@ -176,32 +156,26 @@ class AuthenicationActivity : AppCompatActivity() {
             .build()
     }
 
-    // -----------------------------
-    // CHECK BIOMETRIC SUPPORT
-    // -----------------------------
     private fun enableBiometricIfPossible() {
         val token = getSavedToken()
-        Log.d("BIO_TOKEN", "Token = $token")
-
         val bm = BiometricManager.from(this)
         val canAuth = bm.canAuthenticate(
             BiometricManager.Authenticators.BIOMETRIC_STRONG or
                     BiometricManager.Authenticators.BIOMETRIC_WEAK
         )
-
         biometricBtn.isEnabled = (token != null && canAuth == BiometricManager.BIOMETRIC_SUCCESS)
-        Log.d("BIO_BUTTON", "Enabled = ${biometricBtn.isEnabled}")
     }
 
-    // -----------------------------
-    // GOOGLE SIGN-IN HANDLER
-    // -----------------------------
+    // Google Sign-In handler
     private fun handleSignInResult(task: com.google.android.gms.tasks.Task<GoogleSignInAccount>) {
         try {
             val account = task.getResult(ApiException::class.java)
             if (account != null) {
-                saveToken("google_login")
-                RetrofitClient.setToken("google_login")
+                // TODO: Call your backend /api/auth/login/google with account.idToken
+                // For now, just save placeholder until backend integration
+                val fakeToken = "google_jwt_token"
+                saveToken(fakeToken)
+                RetrofitClient.setToken(fakeToken)
 
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
@@ -211,6 +185,7 @@ class AuthenicationActivity : AppCompatActivity() {
         }
     }
 
+    // Helpers
     private fun saveToken(token: String?) {
         val prefs = getSharedPreferences("auth", MODE_PRIVATE)
         prefs.edit().putString("token", token).apply()
