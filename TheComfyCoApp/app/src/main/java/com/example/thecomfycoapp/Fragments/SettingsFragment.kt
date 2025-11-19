@@ -14,6 +14,7 @@ import com.example.thecomfycoapp.R
 import com.example.thecomfycoapp.utils.LanguageManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+
 class SettingsFragment : Fragment() {
 
     override fun onCreateView(
@@ -40,7 +41,7 @@ class SettingsFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        // -------- THEME MODE (unchanged) --------
+        // -------- THEME MODE --------
         when (prefs.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_NO)) {
             AppCompatDelegate.MODE_NIGHT_YES -> rbDark.isChecked = true
             else -> rbLight.isChecked = true
@@ -57,32 +58,41 @@ class SettingsFragment : Fragment() {
             requireActivity().recreate()
         }
 
-        // -------- LANGUAGE DROPDOWN (English / isiZulu) --------
+        // -------- LANGUAGE DROPDOWN (English / isiZulu / Afrikaans) --------
         val languageItems = listOf(
-            getString(R.string.lang_english),
-            getString(R.string.lang_isizulu)
+            getString(R.string.lang_english),    // 0 -> "en"
+            getString(R.string.lang_isizulu),    // 1 -> "zu"
+            getString(R.string.lang_afrikaans)   // 2 -> "af"
         )
 
         actLanguage.setAdapter(
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, languageItems)
         )
 
-        // Use LanguageManager to read the saved tag
+        // Read saved language ("en", "zu", "af") and pick correct index
         val savedLangTag = LanguageManager.getSavedLanguageTag(requireContext())
-        val langIndex = if (savedLangTag.startsWith("zu")) 1 else 0
+        val langIndex = when {
+            savedLangTag.startsWith("zu") -> 1
+            savedLangTag.startsWith("af") -> 2
+            else -> 0  // default: English
+        }
         actLanguage.setText(languageItems[langIndex], false)
 
         actLanguage.setOnItemClickListener { _, _, position, _ ->
-            val langTag = if (position == 1) "zu" else "en"
+            val langTag = when (position) {
+                1 -> "zu"
+                2 -> "af"
+                else -> "en"
+            }
 
-            // 1) Save + apply new locale
+            // Save + apply new locale
             LanguageManager.changeLanguage(requireContext(), langTag)
 
-            // 2) Recreate the whole activity so ALL text reloads in new language
+            // Recreate activity so all text reloads in new language
             requireActivity().recreate()
         }
 
-        // -------- TEXT SIZE DROPDOWN (unchanged) --------
+        // -------- TEXT SIZE DROPDOWN --------
         val sizeItems = listOf(
             getString(R.string.text_size_small),
             getString(R.string.text_size_medium),

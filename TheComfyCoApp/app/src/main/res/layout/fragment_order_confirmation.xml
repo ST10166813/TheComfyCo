@@ -7,9 +7,6 @@
     android:background="@android:color/white">
 
     <!-- Logo -->
-
-    <!-- Thank you message (no space from image) -->
-
     <ImageView
         android:id="@+id/imgOrderLogo"
         android:layout_width="220dp"
@@ -22,12 +19,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Thank you message -->
     <TextView
         android:id="@+id/tvThankYou"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/tenor_sans_reg"
-        android:text="THANK YOU FOR YOUR ORDER"
+        android:text="@string/order_thank_you"
         android:textAllCaps="true"
         android:textColor="@android:color/black"
         android:textSize="14sp"
@@ -46,7 +44,7 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="40dp"
         android:fontFamily="@font/tenor_sans_reg"
-        android:text="CONTINUE SHOPPING"
+        android:text="@string/cart_continue_shopping"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:textSize="13sp"
@@ -56,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvThankYou"
+        app:layout_constraintTop_toBottomOf="@id/tvThankYou"
         app:layout_constraintVertical_bias="0.039" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

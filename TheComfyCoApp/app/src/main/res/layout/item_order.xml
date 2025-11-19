@@ -12,14 +12,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/tvOrderId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order #"
+            android:text="@string/order_id_label"
             android:textStyle="bold"
             android:fontFamily="@font/tenor_sans_reg"
             android:textSize="14sp" />
@@ -28,7 +28,7 @@
             android:id="@+id/tvOrderCustomer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Customer"
+            android:text="@string/order_customer_label"
             android:fontFamily="@font/tenor_sans_reg"
             android:textSize="13sp"
             android:layout_marginTop="4dp" />
@@ -37,7 +37,7 @@
             android:id="@+id/tvOrderTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total: R 0.00"
+            android:text="@string/order_total_label"
             android:fontFamily="@font/tenor_sans_reg"
             android:textSize="13sp"
             android:layout_marginTop="4dp" />
@@ -46,7 +46,7 @@
             android:id="@+id/tvOrderStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status: Pending"
+            android:text="@string/order_status_label"
             android:fontFamily="@font/tenor_sans_reg"
             android:textSize="12sp"
             android:layout_marginTop="4dp" />

@@ -9,7 +9,7 @@ object LanguageManager {
     private const val PREFS_NAME = "settings_prefs"
     private const val KEY_LANGUAGE = "app_lang"
 
-    /** Read saved language tag (e.g. "en" or "zu") */
+    /** Read saved language tag (e.g. "en", "zu", "af") */
     fun getSavedLanguageTag(context: Context): String {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return prefs.getString(KEY_LANGUAGE, "en") ?: "en"

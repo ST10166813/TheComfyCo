@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name"> </string>
+    <string name="app_name"></string>
 
     <string name="default_web_client_id">
         35777820279-i379gs92h4bcqtr8prq306t595ik37u1.apps.googleusercontent.com
@@ -26,28 +25,31 @@
     <!-- Dropdown options -->
     <string name="lang_english">English</string>
     <string name="lang_isizulu">isiZulu</string>
+    <string name="lang_afrikaans">Afrikaans</string>
+
 
     <string name="text_size_small">Small</string>
     <string name="text_size_medium">Medium</string>
     <string name="text_size_large">Large</string>
 
-    <!-- HOME / DRAWER -->
+    <!-- Home / Drawer -->
     <string name="home_title">Home</string>
     <string name="drawer_profile">PROFILE</string>
     <string name="drawer_settings">SETTINGS</string>
     <string name="drawer_sign_out">SIGN OUT</string>
-    <!-- HOME FRAGMENT -->
+
+    <!-- Home fragment -->
     <string name="home_hi_user">HI\nUSER!</string>
     <string name="home_view_products">View Products</string>
     <string name="home_error_generic">Something went wrong. Please try again.</string>
 
-    <!-- BOTTOM NAV (if you use these in bottom_menu.xml) -->
+    <!-- Bottom Nav -->
     <string name="nav_home">Home</string>
     <string name="nav_products">Products</string>
     <string name="nav_cart">Cart</string>
     <string name="nav_wishlist">Wishlist</string>
 
-    <!-- PRODUCT LIST / DETAIL -->
+    <!-- Product List / Detail -->
     <string name="products_title">Products</string>
     <string name="product_price">Price</string>
     <string name="product_colour">Colour</string>
@@ -58,16 +60,16 @@
     <string name="cart_empty_message">Your cart is empty</string>
     <string name="btn_view_details">View details</string>
 
-    <!-- PRODUCT DETAIL SCREEN -->
+    <!-- Product Detail Screen -->
     <string name="product_detail_title">Product</string>
     <string name="product_available_sizes">Available Sizes</string>
 
-    <!-- PRODUCT LIST SCREEN -->
+    <!-- Product List Screen -->
     <string name="products_list_title">Products</string>
     <string name="products_list_heading">OUR\nCOLLECTION</string>
     <string name="products_list_subheading">Browse all products from The Comfy Co</string>
 
-    <!-- CART -->
+    <!-- Cart -->
     <string name="cart_title">My cart</string>
     <string name="cart_empty">Your cart is empty</string>
     <string name="cart_total">Total</string>
@@ -76,10 +78,49 @@
 
     <string name="product_stock_label">Stock: %1$d units</string>
 
+    <!-- Wishlist -->
     <string name="add_to_wishlist">Add to wishlist</string>
     <string name="title_my_wishlist">MY WISHLIST</string>
     <string name="title_wishlist_detail">Wishlist item</string>
     <string name="btn_remove_from_wishlist">Remove from wishlist</string>
+
+    <string name="order_thank_you">Thank you for your order</string>
+
+    <string name="order_id_label">Order #</string>
+    <string name="order_customer_label">Customer</string>
+    <string name="order_total_label">Total:</string>
+    <string name="order_status_label">Status:</string>
+    <!-- Cart screen -->
+    <string name="cart_title_big">MY CART</string>
+    <string name="cart_header_product">PRODUCT</string>
+    <string name="cart_header_total">TOTAL</string>
+    <string name="cart_total_label">Total:</string>
+    <string name="cart_shipping_note">Shipping calculated at checkout</string>
+    <string name="cart_checkout_btn">CHECKOUT</string>
+
+    <!-- CHECKOUT SCREEN -->
+    <string name="checkout_title">CHECKOUT</string>
+
+    <string name="checkout_summary_title">ORDER SUMMARY</string>
+    <string name="checkout_summary_default">2 items • Total: R 0.00</string>
+
+    <string name="checkout_instruction">PLEASE FILL IN CARD DETAILS</string>
+
+    <string name="checkout_card_name_label">CARD NAME</string>
+    <string name="checkout_card_name_hint">JOHN DOE</string>
+
+    <string name="checkout_card_number_label">CARD NUMBER</string>
+    <string name="checkout_card_number_hint">1234 5678 9012 3456</string>
+
+    <string name="checkout_expiry_label">EXPIRY DATE</string>
+    <string name="checkout_expiry_hint">MM / YY</string>
+
+    <string name="checkout_cvv_label">CVV</string>
+    <string name="checkout_cvv_hint">123</string>
+
+    <string name="checkout_pay_btn">PAY</string>
+
+
 
 
 </resources>

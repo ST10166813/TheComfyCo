@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/tenor_sans_reg"
-        android:text="CHECKOUT"
-        android:textColor="@android:color/black"
+        android:text="@string/checkout_title"
+        android:textColor="?attr/colorOnBackground"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="24dp"
@@ -48,22 +48,22 @@
                 android:id="@+id/tvSummaryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ORDER SUMMARY"
+                android:text="@string/checkout_summary_title"
                 android:textAllCaps="true"
                 android:textSize="12sp"
                 android:letterSpacing="0.12"
                 android:fontFamily="@font/tenor_sans_reg"
-                android:textColor="@android:color/black" />
+                android:textColor="?attr/colorOnBackground" />
 
             <TextView
                 android:id="@+id/tvOrderSummary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="2 items • Total: R 0.00"
+                android:text="@string/checkout_summary_default"
                 android:textSize="12sp"
                 android:fontFamily="@font/tenor_sans_reg"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -94,23 +94,23 @@
                 android:id="@+id/tvCheckoutSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PLEASE FILL IN CARD DETAILS"
+                android:text="@string/checkout_instruction"
                 android:textAllCaps="true"
                 android:textSize="12sp"
                 android:fontFamily="@font/tenor_sans_reg"
                 android:letterSpacing="0.12"
-                android:textColor="@android:color/black" />
+                android:textColor="?attr/colorOnBackground" />
 
             <!-- CARD NAME -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="CARD NAME"
+                android:text="@string/checkout_card_name_label"
                 android:textSize="11sp"
                 android:textAllCaps="true"
                 android:fontFamily="@font/tenor_sans_reg"
-                android:textColor="@android:color/black" />
+                android:textColor="?attr/colorOnBackground" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@android:color/transparent"
-                    android:hint="JOHN DOE"
+                    android:hint="@string/checkout_card_name_hint"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:textSize="14sp"
@@ -139,11 +139,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="CARD NUMBER"
+                android:text="@string/checkout_card_number_label"
                 android:textSize="11sp"
                 android:textAllCaps="true"
                 android:fontFamily="@font/tenor_sans_reg"
-                android:textColor="@android:color/black" />
+                android:textColor="?attr/colorOnBackground" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:inputType="number"
-                    android:hint="1234 5678 9012 3456"
+                    android:hint="@string/checkout_card_number_hint"
                     android:background="@android:color/transparent"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -175,6 +175,7 @@
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
+                <!-- EXPIRY -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -184,11 +185,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="EXPIRY DATE"
+                        android:text="@string/checkout_expiry_label"
                         android:textSize="11sp"
                         android:textAllCaps="true"
                         android:fontFamily="@font/tenor_sans_reg"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/colorOnBackground" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -203,7 +204,7 @@
                             android:id="@+id/etExpiry"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:hint="MM / YY"
+                            android:hint="@string/checkout_expiry_hint"
                             android:background="@android:color/transparent"
                             android:paddingStart="12dp"
                             android:paddingEnd="12dp"
@@ -218,6 +219,7 @@
                     android:layout_width="8dp"
                     android:layout_height="0dp" />
 
+                <!-- CVV -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -227,11 +229,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CVV"
+                        android:text="@string/checkout_cvv_label"
                         android:textSize="11sp"
                         android:textAllCaps="true"
                         android:fontFamily="@font/tenor_sans_reg"
-                        android:textColor="@android:color/black" />
+                        android:textColor="?attr/colorOnBackground" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -247,7 +249,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:inputType="numberPassword"
-                            android:hint="123"
+                            android:hint="@string/checkout_cvv_hint"
                             android:background="@android:color/transparent"
                             android:paddingStart="12dp"
                             android:paddingEnd="12dp"
@@ -265,7 +267,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="24dp"
-                android:text="PAY"
+                android:text="@string/checkout_pay_btn"
                 android:textAllCaps="true"
                 android:textSize="14sp"
                 android:fontFamily="@font/tenor_sans_reg"

@@ -1,0 +1,125 @@
+<resources>
+    <string name="app_name"></string>
+
+    <string name="default_web_client_id">
+        35777820279-i379gs92h4bcqtr8prq306t595ik37u1.apps.googleusercontent.com
+    </string>
+
+    <!-- Navigation / generic -->
+    <string name="navigation_menu">Navigasiekieslys</string>
+    <string name="hello_blank_fragment">Hallo leë fragment</string>
+    <string name="nav_open">Maak navigasielaa oop</string>
+    <string name="nav_close">Maak navigasielaa toe</string>
+    <string name="search">Soek</string>
+    <string name="clear">Vee uit</string>
+    <string name="search_product_hint">Soek produk</string>
+
+    <string name="settings_title">MY INSTELLINGS</string>
+
+    <string name="label_language">TAAL</string>
+    <string name="label_text_size">TEKSGROOTTE</string>
+    <string name="label_display_mode">VERTONINGSMODUS</string>
+
+    <string name="mode_light">Ligmodus</string>
+    <string name="mode_dark">Donkermodus</string>
+
+    <string name="lang_english">Engels</string>
+    <string name="lang_isizulu">isiZulu</string>
+    <string name="lang_afrikaans">Afrikaans</string>
+
+    <string name="text_size_small">Klein</string>
+    <string name="text_size_medium">Medium</string>
+    <string name="text_size_large">Groot</string>
+
+    <!-- Home / Drawer -->
+    <string name="home_title">Tuis</string>
+    <string name="drawer_profile">PROFIEL</string>
+    <string name="drawer_settings">INSTELLINGS</string>
+    <string name="drawer_sign_out">TEKEN UIT</string>
+
+    <!-- Home fragment -->
+    <string name="home_hi_user">HALLO\nGEBRUIKER!</string>
+    <string name="home_view_products">Bekyk Produkte</string>
+    <string name="home_error_generic">Iets het verkeerd gegaan. Probeer asseblief weer.</string>
+
+    <!-- Bottom Nav -->
+    <string name="nav_home">Tuis</string>
+    <string name="nav_products">Produkte</string>
+    <string name="nav_cart">Mandjie</string>
+    <string name="nav_wishlist">Wenslys</string>
+
+    <!-- Product List / Detail -->
+    <string name="products_title">Produkte</string>
+    <string name="product_price">Prys</string>
+    <string name="product_colour">Kleur</string>
+    <string name="product_size">Grootte</string>
+    <string name="product_description">Beskrywing</string>
+    <string name="product_quantity_label">Hoeveelheid</string>
+    <string name="btn_add_to_cart">Voeg by mandjie</string>
+    <string name="cart_empty_message">Jou mandjie is leeg</string>
+    <string name="btn_view_details">Sien besonderhede</string>
+
+    <!-- Product Detail Screen -->
+    <string name="product_detail_title">Produk</string>
+    <string name="product_available_sizes">Beskikbare groottes</string>
+
+    <!-- Product List Screen -->
+    <string name="products_list_title">Produkte</string>
+    <string name="products_list_heading">ONS\nVERSAMELING</string>
+    <string name="products_list_subheading">Blaai deur al die produkte van The Comfy Co</string>
+
+    <!-- Cart -->
+    <string name="cart_title">My mandjie</string>
+    <string name="cart_empty">Jou mandjie is leeg</string>
+    <string name="cart_total">Totaal</string>
+    <string name="cart_checkout">Betaal</string>
+    <string name="cart_continue_shopping">Gaan voort met inkopies</string>
+
+    <string name="product_stock_label">Voorraad: %1$d eenhede</string>
+
+    <!-- Wishlist -->
+    <string name="add_to_wishlist">Voeg by wenslys</string>
+    <string name="title_my_wishlist">MY WENSLYS</string>
+    <string name="title_wishlist_detail">Wenslys item</string>
+    <string name="btn_remove_from_wishlist">Verwyder van wenslys</string>
+
+    <string name="order_thank_you">Dankie vir jou bestelling</string>
+
+    <string name="order_id_label">Bestelling #</string>
+    <string name="order_customer_label">Kliënt</string>
+    <string name="order_total_label">Totaal:</string>
+    <string name="order_status_label">Status:</string>
+
+    <!-- Cart screen -->
+    <string name="cart_title_big">MY MANDJIE</string>
+    <string name="cart_header_product">PRODUK</string>
+    <string name="cart_header_total">TOTAAL</string>
+    <string name="cart_total_label">Totaal:</string>
+    <string name="cart_shipping_note">Versending word by betaalpunt bereken</string>
+    <string name="cart_checkout_btn">BETAAL</string>
+
+    <!-- CHECKOUT SCREEN -->
+    <string name="checkout_title">AFREKEN</string>
+
+    <string name="checkout_summary_title">BESTEL OPSOMMING</string>
+    <string name="checkout_summary_default">2 items • Totaal: R 0.00</string>
+
+    <string name="checkout_instruction">VUL ASSEBLIEF KAARTBESONDERHEDE IN</string>
+
+    <string name="checkout_card_name_label">KAARTNAAM</string>
+    <string name="checkout_card_name_hint">JOHN DOE</string>
+
+    <string name="checkout_card_number_label">KAARTNOMMER</string>
+    <string name="checkout_card_number_hint">1234 5678 9012 3456</string>
+
+    <string name="checkout_expiry_label">VERVALDATUM</string>
+    <string name="checkout_expiry_hint">MM / JJ</string>
+
+    <string name="checkout_cvv_label">CVV</string>
+    <string name="checkout_cvv_hint">123</string>
+
+    <string name="checkout_pay_btn">BETAAL</string>
+
+
+
+</resources>
